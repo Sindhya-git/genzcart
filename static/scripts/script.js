@@ -9,6 +9,7 @@ recordMic.onclick = function() {
   console.log(filename);
   if (filename == 'microphone.jpg') {
     try {
+      recordMic.src = 'static/mic_active.png';
       startRecording();
       console.log('recorder started');
       $('#q').val('I am listening ...');
