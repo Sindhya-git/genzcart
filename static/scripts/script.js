@@ -1,4 +1,5 @@
 let recorder;
+let context;
 
 const recordMic = document.getElementById("stt2");
 console.log(document.getElementById("stt2"));
