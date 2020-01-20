@@ -106,7 +106,7 @@ function play(inputText) {
   }
 }
 
-const recordMic = document.getElementById('mic');
+const recordMic = document.getElementById('stt2');
 recordMic.onclick = function() {
   const fullPath = recordMic.src;
   const filename = fullPath.replace(/^.*[\\/]/, '');
