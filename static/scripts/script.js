@@ -1,6 +1,4 @@
-let conversationContext = '';
 let recorder;
-let context;
 
 function displayMsgDiv(str, who) {
   const time = new Date();
