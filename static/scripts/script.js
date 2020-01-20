@@ -116,7 +116,7 @@ recordMic.onclick = function() {
       console.log('recorder started');
       $('#q').val('I am listening ...');
     } catch (ex) {
-      // console.log("Recognizer error .....");
+      console.log("Recognizer error .....");
     }
   } else {
     stopRecording();
