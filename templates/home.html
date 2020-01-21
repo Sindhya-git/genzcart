@@ -45,18 +45,44 @@
   		<div class="search-container">
 			<form  action="/search" method="get" >
    	       			<input type="text" class="searchTerm" id="search-q" name="q" placeholder="product search (type or speak)">
-				<img id="stt2" style="pointer-events:all" src="static/microphone.jpg"></input>
+				<img id="stt2" onclick="startrec()" style="pointer-events:all" src="static/microphone.jpg"></input>
 				<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
    		</div>
     </div>
-     <p><audio id="audio" controls></audio></p>
-<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-<script type="text/javascript" src="static/scripts/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="static/scripts/script.js"></script>
-<script type="text/javascript" src="static/scripts/recorder.js"></script>
-<script type="text/javascript" src="static/scripts/recordWorker.js"></script>
+     <script>
+	function startrec() { 
+		startRecording();
+      console.log('recorder started');
+	}
+	     function startRecording(button) {
+  recorder && recorder.record();
+  console.log('Recording...');
+}
 
+function stopRecording(button) {
+  recorder && recorder.stop();
+  console.log('Stopped recording.');
+
+  recorder &&
+    recorder.exportWAV(function(blob) {
+      console.log(blob);
+      const url = '/api/speech-to-text';
+      const request = new XMLHttpRequest();
+      request.open('POST', url, true);
+      // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+      // Decode asynchronously
+      request.onload = function() {
+        callConversation(request.response);
+        displayMsgDiv(request.response, 'user');
+      };
+      request.send(blob);
+    });
+
+  recorder.clear();
+}
+     </script>
 
   
   	<div class="caro-container">
