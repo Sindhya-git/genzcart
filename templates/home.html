@@ -9,7 +9,6 @@
   <!--link rel="stylesheet" href="C:/Kapy/static/css/home.css"> -->
     
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css"> 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
@@ -31,10 +30,9 @@
 </head>
 
  <body >
-	 <div class="panel">
-  		<h1 style="color:black;text-align:center;font-family:French script MT;padding-top: 45px;
-  		padding-right: 100px;background-image: url('static/index.jpg');font-size:300%">KOOL-GENZ</h1> 
- 	</div>
+	 
+  		<img src='static/title.jpg' width="1280" height="120"> 
+ 	
  
    	<div class="topnav">
   		<a class="active" href="/home">Home</a>
@@ -45,44 +43,42 @@
   		<div class="search-container">
 			<form  action="/search" method="get" >
    	       			<input type="text" class="searchTerm" id="search-q" name="q" placeholder="product search (type or speak)">
-				<img id="stt2" onclick="startrec()" style="pointer-events:all" src="static/microphone.jpg"></input>
+				<img onclick="startDictation()" id="mic" src="static/microphone.jpg"></input>
 				<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
    		</div>
     </div>
      <script>
-	function startrec() { 
-		startRecording();
-      console.log('recorder started');
-	}
-	     function startRecording(button) {
-  recorder && recorder.record();
-  console.log('Recording...');
-}
+  function startDictation() {
 
-function stopRecording(button) {
-  recorder && recorder.stop();
-  console.log('Stopped recording.');
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
 
-  recorder &&
-    recorder.exportWAV(function(blob) {
-      console.log(blob);
-      const url = '/api/speech-to-text';
-      const request = new XMLHttpRequest();
-      request.open('POST', url, true);
-      // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      var recognition = new webkitSpeechRecognition();
 
-      // Decode asynchronously
-      request.onload = function() {
-        callConversation(request.response);
-        displayMsgDiv(request.response, 'user');
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+	      console.log(e);
+        document.getElementById('search-q').value
+                                 = e.results[0][0].transcript;
+	      
+	      
+        recognition.stop();
+        document.getElementById('searchsub').submit();
       };
-      request.send(blob);
-    });
 
-  recorder.clear();
-}
-     </script>
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }
+</script>
+
 
   
   	<div class="caro-container">
@@ -146,7 +142,7 @@ function stopRecording(button) {
 </div>
 
 <div class="brand-container">
-<h3 style="color:black;">Top Brands to choose from </h3>
+<h3 style="color:black;">Top Brands </h3>
 
 <div class="row">
   <div class="column">

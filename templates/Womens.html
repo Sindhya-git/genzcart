@@ -7,9 +7,20 @@
   <title>Womens page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <!--link rel="stylesheet" href="C:/Kapy/static/css/home.css"> -->
+    
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css"> 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    
@@ -20,9 +31,19 @@
   top: 35%;
   left: 20%;
   }
+	
+	
 .container {
   list-style-type: none;
   padding-left: 20;
+  margin: 0;
+  width:200px;
+  height:200px;
+}
+	
+.check-container {
+  list-style-type: none;
+  padding-left: 30;
   margin: 0;
   width:200px;
   height:200px;
@@ -33,6 +54,22 @@
   border-radius: 4px;
   padding: 5px;
   
+}
+
+.flex-container > div > p> button {
+  border: none;
+  outline: 0;
+  padding: 4px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 50%;
+  font-size: 10px;
+}
+
+.card button:hover {
+  opacity: 0.7;
 }
 	
 .flex-container {
@@ -48,12 +85,11 @@
 
 </head>
   <body >
- <div class="panel">
-  <h1 style="color:black;text-align:center;font-family:French script MT;padding-top: 45px;
-  padding-right: 100px;background-image: url('static/index.jpg');font-size:300%">KOOL-GENZ</h1> 
- </div>
  
- <div class="topnav">
+  <img src='static/title.jpg' width="1280" height="120"> 
+ 
+ 
+  <div class="topnav">
   		<a class="active" href="/home">Home</a>
   		<a href="/men">Men</a>
   		<a href="/women">Women</a>
@@ -62,7 +98,7 @@
   		<div class="search-container">
 			<form action="/search" method="get" >
    	       		<input type="text" class="searchTerm" name="q" placeholder="What will you shop for today?">
-      	       	<button type="submit"><i class="fa fa-search"></i></button>
+      	       		<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
   		</div>
     </div>
@@ -72,14 +108,99 @@
    		<div class="col-list">
         		<h4>BRANDS</h4>
 		        <div class="list-group">
-				<a href="/women?view=Reflex" class="list-group-item">REFLEX</a>
+					<a href="/women?view=Reflex" class="list-group-item">REFLEX</a>
 			        <a href="/women?view=IWOLLENCE" class="list-group-item">IWOLLENCE</a>
 			        <a href="/women?view=MUSHARE" class="list-group-item">MUSHARE</a>
 			        <a href="/women?view=Disposable" class="list-group-item">WORKFORCE</a>
-			</div>
+				</div>
         	</div>
   	</div>
-  </div>
+</div>
+	  
+ <div class="check-container">
+  <form id="chkformw" action="/women" role="form" method="post" onsubmit="return false">
+  	<legend>SIZE</legend>
+	   
+	   {% if cbow == null or cbow == "" %}	
+            
+	    <div class="checkbox">
+              <label>  <input type="checkbox" name="chkw" value='small' class="chkcatg" onclick="this.form.submit()">Small </label>
+           </div>
+	    <div class="checkbox">
+              <label>  <input type="checkbox" name="chkw" value="medium" class="chkcatg" onclick="this.form.submit()">Medium</label>
+            </div>
+	    <div class="checkbox">
+              <label>  <input type="checkbox" name="chkw" value="large" class="chkcatg" onclick="this.form.submit()">Large </label>
+            </div>
+	    <div class="checkbox">
+		    <label>  <input type="checkbox" name="chkw" value="XL" class="chkcatg" onclick="this.form.submit()">XL </label>
+            </div>
+	    <div class="checkbox">
+              <label>  <input type="checkbox" name="chkw" value="XXLarge" class="chkcatg" onclick="this.form.submit()">XXL </label>
+            </div>
+	  {% else %}
+	                          
+	  	{% if cbow[0] == 'small' or cbow[1] == 'small' or cbow[2] == 'small' or cbow[3] == 'small' or cbow[4] == 'small' or cbow[5] == 'small' %}
+                    
+            		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value='small' class="chkcatg" onclick="this.form.submit()" checked>Small </label>
+            		</div>
+	  	{% else %}
+	  		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value='small' class="chkcatg" onclick="this.form.submit()">Small </label>
+            		</div>
+	  	{% endif %}
+	  
+	  	{% if cbow[0] == 'medium' or cbow[1] == 'medium' or cbow[2] == 'medium' or cbow[3] == 'medium' or cbow[4] == 'medium' or cbow[5] == 'medium' %}
+
+	  		<div class="checkbox">
+              		<label>  <input type="checkbox" name="chkw" value="medium" class="chkcatg" onclick="this.form.submit()" checked>Medium</label>
+             		</div>        
+	  	{% else %}
+	  		<div class="checkbox">
+              		<label>  <input type="checkbox" name="chkw" value="medium" class="chkcatg" onclick="this.form.submit()">Medium</label>
+             		</div>
+	  	{% endif %}
+                        
+	  	{% if cbow[0] == 'large' or cbow[1] == 'large' or cbow[2] == 'large' or cbow[3] == 'large' or cbow[4] == 'large' or cbow[5] == 'large' %}
+                   
+            		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value="large" class="chkcatg" onclick="this.form.submit()" checked>Large </label>
+            		</div>
+	  	{% else %}
+	  		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value="large" class="chkcatg" onclick="this.form.submit()">Large </label>
+            		</div>
+	  	{% endif %}
+	  		
+	  	{% if cbow[0] == 'XL' or cbow[1] == 'XL' or cbow[2] == 'XL' or cbow[3] == 'XL' or cbow[4] == 'XL' or cbow[5] == 'XL'%}
+
+	  		<div class="checkbox">
+              		<label>  <input type="checkbox" name="chkw" value="XL" class="chkcatg" onclick="this.form.submit()" checked>XL </label>
+             		</div>        
+	  	{% else %}
+	  		<div class="checkbox">
+              		<label>  <input type="checkbox" name="chkw" value="XL" class="chkcatg" onclick="this.form.submit()">XL </label>
+             		</div>
+	  	{% endif %}
+                        
+	  	{% if cbow[0] == 'XXLarge' or cbow[1] == 'XXLarge' or cbow[2] == 'XXLarge' or cbow[3] == 'XXLarge' or cbow[4] == 'XXLarge' or cbow[5] == 'XXLarge'%}
+                  
+            		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value="XXLarge" class="chkcatg" onclick="this.form.submit()" checked>XXL </label>
+            		</div>
+	  	{% else %}
+	  		<div class="checkbox">
+             		<label>  <input type="checkbox" name="chkw" value="XXLarge" class="chkcatg" onclick="this.form.submit()">XXL </label>
+            		</div>
+	  	{% endif %}
+	  	
+	  {% endif %}
+                       	
+  </form>
+  	
+ </div>
+ 
 
  <div class="shirt-container">
     <div class="flex-container">
@@ -89,9 +210,15 @@
                             <img src='static/{{product.ITEM_NUMBER}}.jpg' width=150px>
                          </a>
                         
-                            <h5><a href="/">{{product.DESCRIPTION}}</a> </h5>
-                            <h5>{{product.LIST_PRICE}}</h5>
-                   </div>
+                            <h5><a href="/">{{product.DESCRIPTION}} </h5>
+                            <h5>${{product.LIST_PRICE}}</h5></a>
+			    			{% if product.DISCOUNT == None %}
+					    	<h5 color: grey;>0.0%</h5>
+						    {% else %}
+						 	<h5 color: grey;>{{product.DISCOUNT}}%</h5>
+						    {% endif %}
+						    <p><button>Add to Cart</button></p>
+                </div>
       {% endfor %}
     </div>
  

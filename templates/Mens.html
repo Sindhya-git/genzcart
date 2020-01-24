@@ -7,14 +7,25 @@
   <title>Mens page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <!--link rel="stylesheet" href="C:/Kapy/static/css/home.css"> -->
+    
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css"> 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   
 <style>
-
+	
 .shirt-container{
   position: absolute;
   top: 35%;
@@ -34,6 +45,18 @@
   border-radius: 4px;
   padding: 5px;
   
+}
+	
+.flex-container > div > p> button {
+  border: none;
+  outline: 0;
+  padding: 4px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 50%;
+  font-size: 10px;
 }
 
 .check-container {
@@ -58,10 +81,9 @@
 
 </head>
   <body >
- <div class="panel">
-  <h1 style="color:black;text-align:center;font-family:French script MT;padding-top: 45px;
-  padding-right: 100px;background-image: url('static/index.jpg');font-size:300%">KOOL-GENZ</h1> 
- </div>
+ 
+  <img src='static/title.jpg' width="1280" height="120"> 
+ 
  
   <div class="topnav">
   		<a class="active" href="/home">Home</a>
@@ -72,10 +94,12 @@
   		<div class="search-container">
 			<form action="/search" method="get" >
    	       		<input type="text" class="searchTerm" name="q" placeholder="What will you shop for today?">
-      	       	<button type="submit"><i class="fa fa-search"></i></button>
+      	       		<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
   		</div>
     </div>
+	  
+    
  
    <div class="container">
    	<div class="row">
@@ -96,40 +120,128 @@
 	  
   <div class="check-container">
   <form id="chkform" action="/men" role="form" method="post" onsubmit="return false">
-  	<div id="filters">
-		
-	 <label>SIZE</label>
-		
-             <div class="checkbox">
-              <label>   <input type="checkbox" name="check" value="'38 Long','38 Short'" class="category">Size 38 </label>
+  	<legend>SIZE</legend>
+	   
+	   {% if cbox == null or cbox == "" %}	
+            <div class="checkbox">
+              <label>   <input type="checkbox" name="check" value='38' class="category" onclick="this.form.submit()">Size 38 </label>
              </div>                                   
                                             
             <div class="checkbox">
-             <label>  <input type="checkbox" name="check" value="'40 Long','40 Regular'" class="category">Size 40</label>
+             <label>  <input type="checkbox" name="check" value='40' class="category" onclick="this.form.submit()">Size 40</label>
             </div>
             
             <div class="checkbox">
-              <label>  <input type="checkbox" name="check" value="'50 Long'" class="category">Size 50 </label>
+              <label>  <input type="checkbox" name="check" value='50' class="category" onclick="this.form.submit()">Size 50 </label>
             </div>
 	    <div class="checkbox">
-              <label>  <input type="checkbox" name="check" value="'small','Small-Black','Small-Dark Green'" class="category" >Small </label>
+              <label>  <input type="checkbox" name="check" value='small' class="category" onclick="this.form.submit()">Small </label>
             </div>
 	    <div class="checkbox">
-              <label>  <input type="checkbox" name="check" value="medium" class="category">Medium</label>
+              <label>  <input type="checkbox" name="check" value="medium" class="category" onclick="this.form.submit()">Medium</label>
             </div>
 	    <div class="checkbox">
-              <label>  <input type="checkbox" name="check" value="large" class="category">Large </label>
+              <label>  <input type="checkbox" name="check" value="large" class="category" onclick="this.form.submit()">Large </label>
             </div>
 	    <div class="checkbox">
-		    <label>  <input type="checkbox" name="check" value="XL" class="category">XL </label>
+		    <label>  <input type="checkbox" name="check" value="XL" class="category" onclick="this.form.submit()">XL </label>
             </div>
 	    <div class="checkbox">
-              <label>  <input type="checkbox" name="check" value="XXLarge" class="category">XXL </label>
+              <label>  <input type="checkbox" name="check" value="XXLarge" class="category" onclick="this.form.submit()">XXL </label>
             </div>
-            
-            
-  	</div>				
-    	<button type="submit" value="Submit" >Submit</button>                          	
+	  {% else %}
+	  
+	  	      
+	  		
+	  		{% if cbox[0] == '38' or cbox[1] == '38' or cbox[2] == '38' or cbox[3] == '38' or cbox[4] == '38' or cbox[5] == '38' or cbox[6] == '38' or cbox[7] == '38' or cbox[8] == '38'%}
+	  			<div class="checkbox">
+              			<label> <input type="checkbox" name="check" value='38' class="category" onclick="this.form.submit()" checked>Size 38 </label>
+             			</div>        
+	  		{% else %}
+	  			<div class="checkbox">
+              			<label> <input type="checkbox" name="check" value='38' class="category" onclick="this.form.submit()">Size 38 </label>
+             			</div>
+	  		{% endif %}
+                        
+	  		{% if cbox[0] == '40' or cbox[1] == '40' or cbox[2] == '40' or cbox[3] == '40' or cbox[4] == '40' or cbox[5] == '40' or cbox[6] == '40' or cbox[7] == '40' or cbox[8] == '40'%}
+                    
+            			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value='40' class="category" onclick="this.form.submit()" checked>Size 40</label>
+            			</div>
+	  		{% else %}
+	  			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value='40' class="category" onclick="this.form.submit()">Size 40</label>
+            			</div>
+	  		{% endif %}
+	  		
+	  		{% if cbox[0] == '50' or cbox[1] == '50' or cbox[2] == '50' or cbox[3] == '50' or cbox[4] == '50' or cbox[5] == '50' or cbox[6] == '50' or cbox[7] == '50' or cbox[8] == '50'%}
+
+	  			<div class="checkbox">
+              			<label> <input type="checkbox" name="check" value='50' class="category" onclick="this.form.submit()"  checked>Size 50 </label>
+             			</div>        
+	  		{% else %}
+	  			<div class="checkbox">
+              			<label> <input type="checkbox" name="check" value='50' class="category" onclick="this.form.submit()">Size 50 </label>
+             			</div>
+	  		{% endif %}
+                        
+	  		{% if cbox[0] == 'small' or cbox[1] == 'small' or cbox[2] == 'small' or cbox[3] == 'small' or cbox[4] == 'small' or cbox[5] == 'small' or cbox[6] == 'small' or cbox[7] == 'small' or cbox[8] == 'small'%}
+                    
+            			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value='small' class="category" onclick="this.form.submit()" checked>Small </label>
+            			</div>
+	  		{% else %}
+	  			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value='small' class="category" onclick="this.form.submit()">Small </label>
+            			</div>
+	  		{% endif %}
+	  
+	  		{% if cbox[0] == 'medium' or cbox[1] == 'medium' or cbox[2] == 'medium' or cbox[3] == 'medium' or cbox[4] == 'medium' or cbox[5] == 'medium' or cbox[6] == 'medium' or cbox[7] == 'medium' or cbox[8] == 'medium'%}
+
+	  			<div class="checkbox">
+              			<label>  <input type="checkbox" name="check" value="medium" class="category" onclick="this.form.submit()" checked>Medium</label>
+             			</div>        
+	  		{% else %}
+	  			<div class="checkbox">
+              			<label>  <input type="checkbox" name="check" value="medium" class="category" onclick="this.form.submit()">Medium</label>
+             			</div>
+	  		{% endif %}
+                        
+	  		{% if cbox[0] == 'large' or cbox[1] == 'large' or cbox[2] == 'large' or cbox[3] == 'large' or cbox[4] == 'large' or cbox[5] == 'large' or cbox[6] == 'large' or cbox[7] == 'large' or cbox[8] == 'large'%}
+                   
+            			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value="large" class="category" onclick="this.form.submit()" checked>Large </label>
+            			</div>
+	  		{% else %}
+	  			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value="large" class="category" onclick="this.form.submit()">Large </label>
+            			</div>
+	  		{% endif %}
+	  		
+	  		{% if cbox[0] == 'XL' or cbox[1] == 'XL' or cbox[2] == 'XL' or cbox[3] == 'XL' or cbox[4] == 'XL' or cbox[5] == 'XL' or cbox[6] == 'XL' or cbox[7] == 'XL' or cbox[8] == 'XL'%}
+
+	  			<div class="checkbox">
+              			<label>  <input type="checkbox" name="check" value="XL" class="category" onclick="this.form.submit()" checked>XL </label>
+             			</div>        
+	  		{% else %}
+	  			<div class="checkbox">
+              			<label>  <input type="checkbox" name="check" value="XL" class="category" onclick="this.form.submit()">XL </label>
+             			</div>
+	  		{% endif %}
+                        
+	  		{% if cbox[0] == 'XXLarge' or cbox[1] == 'XXLarge' or cbox[2] == 'XXLarge' or cbox[3] == 'XXLarge' or cbox[4] == 'XXLarge' or cbox[5] == 'XXLarge' or cbox[6] == 'XXLarge' or cbox[7] == 'XXLarge' or cbox[8] == 'XXLarge'%}
+                  
+            			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value="XXLarge" class="category" onclick="this.form.submit()" checked>XXL </label>
+            			</div>
+	  		{% else %}
+	  			<div class="checkbox">
+             			<label>  <input type="checkbox" name="check" value="XXLarge" class="category" onclick="this.form.submit()">XXL </label>
+            			</div>
+	  		{% endif %}
+	  	
+	  {% endif %}
+                       	
   </form>
   	
  </div>
@@ -142,8 +254,14 @@
 			 <a href="/{{product.FAMILY_NAME}}?view={{product.ITEM_NUMBER}}">
 			 <img src='static/{{product.ITEM_NUMBER}}.jpg' width=150px>
                           <h5>{{product.DESCRIPTION}}</h5>
-                          <h5>${{product.LIST_PRICE}}</h5>
-			  </a>
+                          <h5>${{product.LIST_PRICE}}</h5></a>
+			  {% if product.DISCOUNT == None %}
+			    	<h5 color: grey;>{{product.DISCOUNT}}</h5>
+			    {% else %}
+			 	<h5 color: grey;>{{product.DISCOUNT}}%</h5>
+			    {% endif %}
+			    <p><button>Add to Cart</button></p>
+			  
                    </div>
       {% endfor %}
     </div>

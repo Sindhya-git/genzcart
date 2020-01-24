@@ -3,9 +3,13 @@
 <head>
   <title>PRODUCT DETAIL</title>
   <!--<link rel="stylesheet" href="{{ url_for('static',     filename='css/home.css') }}">
-  </link> -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css"> 
+  
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <style>
     body {
      margin: 0;
@@ -18,10 +22,19 @@
   margin-left: -3px;
   top: 30%;
 }
-     
+   
+.prdt1-container {
+  
+  position: absolute;
+  left: 10%;
+  margin-left: -3px;
+  top: 30%;
+}
+   
+
 .column {
   float: left;
-  width: 33%;
+  width: 33.33%;
   padding: 5px;
 }
 
@@ -35,16 +48,14 @@
 </head>
 
 <body >
-  <div class="panel">
-  <h1 style="color:black;text-align:center;font-family:French script MT;padding-top: 45px;
-  padding-right: 100px;background-image: url('static/index.jpg');font-size:300%">KOOL-GENZ</h1> 
- </div>
+  
+  <img src='static/title.jpg' width="1280" height="120"> 
  <div class="prdt1-container">
         
       <div class="row">
             {% for product1 in prdtdetail %}
                  <div class="column">
-                    <img class="card-img""  src="static/{{product1.ITEM_NUMBER}}.jpg" alt="" border="3" style="width:100%;hspace="40"">
+                    <img class="card-img""  src="static/{{product1.ITEM_NUMBER}}.jpg" alt="" border="3" style="width:90%;">
                  </div>
                  <div class="column" >          
                       <h2>Product Detail</h2>
@@ -53,7 +64,7 @@
                       <p >SIZE    :{{ product1.SKU_ATTRIBUTE_VALUE1}}</p>
                       <p >COLOUR  : {{ product1.SKU_ATTRIBUTE_VALUE2}}</p>
                       <p >PRICE   :${{ product1.LIST_PRICE}}</p> 
-                      {% if product1.DISCOUNT == "" or product1.DISCOUNT == "None" %}                      
+                      {% if product1.DISCOUNT == "" or product1.DISCOUNT == None %}                      
                         <p >DISCOUNT:0%</p> 
                       {% else  %}
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           

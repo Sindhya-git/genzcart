@@ -7,8 +7,21 @@
   <title>Boyz page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
   <!--link rel="stylesheet" href="C:/Kapy/static/css/home.css"> -->
+    
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   
 
@@ -46,10 +59,7 @@
 
 </head>
   <body >
- <div class="panel">
-  <h1 style="color:black;text-align:center;font-family:French script MT;padding-top: 45px;
-  padding-right: 100px;background-image: url('static/index.jpg');font-size:300%">KOOL-GENZ</h1> 
- </div>
+ <img src='static/title.jpg' width="1280" height="120"> 
 	  
 <div class="topnav">
   		<a class="active" href="/home">Home</a>
@@ -60,7 +70,7 @@
   		<div class="search-container">
 			<form action="/search" method="get" >
    	       		<input type="text" class="searchTerm" name="q" placeholder="What will you shop for today?">
-      	       	<button type="submit"><i class="fa fa-search"></i></button>
+      	       	    	<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
   		</div>
     </div>
