@@ -75,9 +75,61 @@ def getTextFromSpeech():
     print ("response of speech is :",text_output)
     return Response(response=text_output, mimetype='plain/text')
   
-@application.route("/women")
+@application.route("/women", methods=['POST', 'GET'])
 def womens_page():
   print ("in womens page",)
+  
+  chkbox_val = request.form.getlist('chkw')
+  print ("chkbox_val1 is :", chkbox_val)
+  chklist = []
+  
+  if request.method == "POST":
+    print ("in post ",)
+    chkbox_val = request.form.getlist('chkw')
+    print ("chkbox_val is :", chkbox_val)
+    
+    if (chkbox_val.count('small') > 0 ):
+      chklist.append('small')
+      chklist.append('Small-Black')
+      chklist.append('Small-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('medium') > 0 ):
+      chklist.append('Medium')
+      chklist.append('Medium-Black')
+      chklist.append('Medium-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('large') > 0 ):
+      chklist.append('Large')
+      chklist.append('Large-Black')
+      chklist.append('Large-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('XL') > 0 ):
+      chklist.append('XL')
+      chklist.append('Xlarge')
+      chklist.append('XLarge-Black')
+      chklist.append('XLarge-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('XXLarge') > 0 ):
+      chklist.append('XXLarge')
+      chklist.append('XXLarge-Wine Red')
+      chklist.append('XXLarge-Black')
+      chklist.append('XXLarge-Dark Green')
+      print ("chklist is :", chklist)
+      
+    
+    curwc = mysql.connection.cursor()
+    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
+    curwcquery = query1 + query2 + query3 
+    print("curcquery is:",curwcquery) 
+    curwc.execute(curwcquery, (chklist,'%Women%'))
+    wcolsize = curwc.fetchall()
+    print("wcollection is :",wcolsize)
+ # Close Connection
+    curwc.close()
+    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val)
+  
   if 'view' in request.args:
     bname = request.args['view']
     print ("brand name is :", bname)
@@ -113,23 +165,64 @@ def mens_page():
   print ("in mens page",)
   chkbox_val = request.form.getlist('check')
   print ("chkbox_val1 is :", chkbox_val)
+  chklist = []
   
   if request.method == "POST":
     print ("in post ",)
     chkbox_val = request.form.getlist('check')
     print ("chkbox_val is :", chkbox_val)
+    if (chkbox_val.count('38') > 0 ):
+      chklist.append('38 Long')
+      chklist.append('38 Short')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('40') > 0 ):
+      chklist.append('40 Long')
+      chklist.append('40 Regular')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('50') > 0 ):
+      chklist.append('50 Long')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('small') > 0 ):
+      chklist.append('small')
+      chklist.append('Small-Black')
+      chklist.append('Small-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('medium') > 0 ):
+      chklist.append('Medium')
+      chklist.append('Medium-Black')
+      chklist.append('Medium-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('large') > 0 ):
+      chklist.append('Large')
+      chklist.append('Large-Black')
+      chklist.append('Large-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('XL') > 0 ):
+      chklist.append('XL')
+      chklist.append('Xlarge')
+      chklist.append('XLarge-Black')
+      chklist.append('XLarge-Dark Green')
+      print ("chklist is :", chklist)
+    if (chkbox_val.count('XXLarge') > 0 ):
+      chklist.append('XXLarge')
+      chklist.append('XXLarge-Wine Red')
+      chklist.append('XXLarge-Black')
+      chklist.append('XXLarge-Dark Green')
+      print ("chklist is :", chklist)
+      
+    
     curc = mysql.connection.cursor()
     query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
     query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s"
+    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION NOT LIKE %s"
     curcquery = query1 + query2 + query3 
     print("curcquery is:",curcquery) 
-    curc.execute(curcquery, (chkbox_val,))
+    curc.execute(curcquery, (chklist,'%Women%'))
     mcolsize = curc.fetchall()
     print("mcollection is :",mcolsize)
  # Close Connection
     curc.close()
-    return render_template('Mens.html', mencol=mcolsize)
+    return render_template('Mens.html', mencol=mcolsize,cbox=chkbox_val)
     
   
   if 'view' in request.args:
@@ -163,19 +256,7 @@ def mens_page():
     curm.close()
     return render_template('Mens.html', mencol=mcollection)
 
-@application.route("/men/", methods=['POST', 'GET'])
-def menchk_page():
-  print ("in mens/ page",)
-  chkbox_val = request.form.getlist('chkbox')
-  print ("chkbox_val1 is :", chkbox_val)
-  chkbox_val = request.form.get('chkbox')
-  print ("chkbox_val2 is :", chkbox_val)
-  if request.method == "POST":
-    print ("in post ",)
-    chkbox_val = request.form.getlist('chkbox')
-    print ("chkbox_val is :", chkbox_val)
-  return render_template('Mens.html', mencol=mcollection)
-    
+
     
 @application.route("/boys")
 def boys_page():
