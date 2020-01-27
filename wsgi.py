@@ -195,15 +195,16 @@ def womens_page():
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
     bwimg_dict = my_dictionary()
-    i=0
+    bwimg_dict = dict(bwcollection) 
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
       imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
       #imgdata = imgdat +'.jpg'
-      #bwimg_dict.add(row['ITEM_NUMBER'] ,imgdata)
-      bwcollection[i].append('IMAGE_KEY' ,imgdat)
-      i=i+1
-    print("bwcollection is :",bwcollection)
+      bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
+      #bwcollection[i].append('IMAGE_KEY' ,imgdat)
+      
+    print("bwcollection1 is :",bwimg_dict)
+    print("bwcollection2 is :",tuple(bwimg_dict))
  # Close Connection
     curbw.close()
     return render_template('Bwomens.html', bwomencol=bwcollection,imgdata1=bwimg_dict)
