@@ -194,7 +194,7 @@ def womens_page():
     curbw.execute(curbwquery,('%' + bname + '%',)) 
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
-    bwimg_dict = = my_dictionary() 
+    bwimg_dict = my_dictionary() 
     #bwimg_dict = dict(bwcollection) 
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
