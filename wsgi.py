@@ -144,6 +144,7 @@ def womens_page():
     curbw.execute(curbwquery,('%' + bname + '%',)) 
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
+    print("s.ITEM_NUMBER :" ,bwcollection['ITEM_NUMBER'])
  # Close Connection
     curbw.close()
     return render_template('Bwomens.html', bwomencol=bwcollection)
