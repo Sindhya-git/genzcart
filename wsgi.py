@@ -57,9 +57,9 @@ def get_bucket_contents(bucket_name,item_no):
         imgjpg = isr['Body'].read()
         print("read")
         return imgjpg, {'Content-Type': 'image/jpg'}
-      except ClientError as be:
+    except ClientError as be:
         print("CLIENT ERROR: {0}\n".format(be))
-      except Exception as e:
+    except Exception as e:
         print("Unable to retrieve bucket contents: {0}".format(e))
 
 
