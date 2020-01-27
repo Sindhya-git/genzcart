@@ -45,12 +45,12 @@ def get_bucket_contents(bucket_name,item_no):
     print("Retrieving bucket contents from: {0}".format(bucket_name))
     try:
         print("in try",)
-        files = cos.Bucket(bucket_name).objects.all()
-        print("files :",files)
+        #files = cos.Bucket(bucket_name).objects.all()
+        #print("files :",files)
                
-        for file in files:
-           print("in for",)
-           print("Item: {0} ({1} bytes).".format(file.key, file.size))
+        #for file in files:
+         #  print("in for",)
+         #  print("Item: {0} ({1} bytes).".format(file.key, file.size))
         #item_id = '1002'
         f = item_no + '.jpg'
         isr = cos.Object(bucket_name, f).get()
@@ -198,12 +198,12 @@ def womens_page():
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
       imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
-      bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
-    for x, y in bwimg_dict.items():
-      print(x, y)
+      #imgdata = imgdat +'.jpg'
+      #bwimg_dict.add(row['ITEM_NUMBER'] ,imgdata)
+       bwcollection.add('IMAGE_KEY' ,imgdat)
  # Close Connection
     curbw.close()
-    return render_template('Bwomens.html', bwomencol=bwcollection)
+    return render_template('Bwomens.html', bwomencol=bwcollection,imgdata1=bwimg_dict)
   else:
     curw = mysql.connection.cursor()
     query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
