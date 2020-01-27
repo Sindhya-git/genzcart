@@ -1,7 +1,7 @@
 gunicorn
 blinker==1.4
 Click==7.0
-Flask==1.1.1
+Flask
 Flask-MySQLdb==0.2.0
 itsdangerous==1.1.0
 Jinja2==2.10.1
@@ -9,8 +9,9 @@ MarkupSafe==1.1.1
 mysqlclient==1.4.2.post1
 WTForms==2.2.1
 websocket-client==0.48.0
-ibm_cloud_sdk_core
-boto3
 ibm-watson==4.0.1
 flask-cors==3.0.8
 flask-socketio==4.2.1
+boto3
+botocore
+ibm-cos-sdk
