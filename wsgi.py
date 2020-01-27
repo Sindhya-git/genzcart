@@ -1,12 +1,12 @@
 from flask import Flask, render_template, json, request, session, redirect
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField
-from functools import wraps
 from flask import jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from ibm_watson import SpeechToTextV1
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+import ibm_boto3
+from ibm_botocore.client import Config, ClientError
 import os
 
 #Initialize flask
@@ -22,6 +22,46 @@ application.config['MYSQL_PASSWORD'] = "welcome1"
 application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+#Intialize fields for IBM COS access
+COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
+COS_API_KEY_ID = "_bAzHuCAN1yPz4Rcg5CZY1Tbp0UOpshuMhpoNkIvJAa3" # eg "W00YiRnLW4a3fTjMB-odB-2ySfTrFBIQQWanc--P3byk"
+COS_AUTH_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token"
+COS_RESOURCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/693fe8ead49b44b192004113d21b15c2:fce26086-5b77-42cc-b1aa-d388aa2853d7::" # eg "crn:v1:bluemix:public:cloud-object-storage:global:a/3bf0d9003abfb5d29761c3e97696b71c:d6f04d83-6c4f-4a62-a165-696756d63903::"
+
+ibm_boto3.set_stream_logger('')
+
+# Create resource
+cos = ibm_boto3.resource(service_name='s3',
+    ibm_api_key_id=COS_API_KEY_ID,
+    ibm_service_instance_id=COS_RESOURCE_CRN,
+    ibm_auth_endpoint=COS_AUTH_ENDPOINT,
+    config=Config(signature_version="oauth"),
+    endpoint_url=COS_ENDPOINT
+)
+bucket_name = 'gamification-cos-standard-tkq'
+
+def get_bucket_contents(bucket_name,item_no):
+    print("Retrieving bucket contents from: {0}".format(bucket_name))
+    try:
+        print("in try",)
+        files = cos.Bucket(bucket_name).objects.all()
+        print("files :",files)
+               
+        for file in files:
+           print("in for",)
+           print("Item: {0} ({1} bytes).".format(file.key, file.size))
+        #item_id = '1002'
+        f = item_no + '.jpg'
+        isr = cos.Object(bucket_name, f).get()
+        imgjpg = isr['Body'].read()
+        print("read")
+        return imgjpg, {'Content-Type': 'image/jpg'}
+      except ClientError as be:
+        print("CLIENT ERROR: {0}\n".format(be))
+      except Exception as e:
+        print("Unable to retrieve bucket contents: {0}".format(e))
+
 
 # Initialize the app for use with this MySQL class
 mysql.init_app(application)
@@ -144,8 +184,14 @@ def womens_page():
     curbw.execute(curbwquery,('%' + bname + '%',)) 
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
+    bwimg_dict = defaultdict(list)
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
+      bwimg_dict.append(row['ITEM_NUMBER'])
+      imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
+      bwimg_dict.[row['ITEM_NUMBER']] = imgdat
+    for x, y in bwimg_dict.items():
+      print(x, y)
  # Close Connection
     curbw.close()
     return render_template('Bwomens.html', bwomencol=bwcollection)
