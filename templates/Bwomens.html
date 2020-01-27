@@ -102,10 +102,10 @@
       {% for product in bwomencol %}
                     <div class="card">
 			 <a href="/{{product.FAMILY_NAME}}?view={{product.ITEM_NUMBER}}">
-			 {% for img in imgdata1 %}
-				 {{img[0]}}
-			 	<img src='{{img.ITEM_NUMBER}}' width=150px>
-			  {% endfor %}
+			 
+			 <img src='{{product.ITEM_NUMBER}}.jpg' width=150px>
+			 <img src='{{product.ITEM_NUMBER}}' width=150px>
+			  
                           <h5>{{product.DESCRIPTION}}</h5>
                           <h5>${{product.LIST_PRICE}}</h5></a>
 			  
