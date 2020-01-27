@@ -200,7 +200,7 @@ def womens_page():
       imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
       #imgdata = imgdat +'.jpg'
       #bwimg_dict.add(row['ITEM_NUMBER'] ,imgdata)
-       bwcollection.add('IMAGE_KEY' ,imgdat)
+      bwcollection.add('IMAGE_KEY' ,imgdat)
  # Close Connection
     curbw.close()
     return render_template('Bwomens.html', bwomencol=bwcollection,imgdata1=bwimg_dict)
