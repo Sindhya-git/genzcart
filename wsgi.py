@@ -61,6 +61,16 @@ def get_bucket_contents(bucket_name,item_no):
         print("CLIENT ERROR: {0}\n".format(be))
     except Exception as e:
         print("Unable to retrieve bucket contents: {0}".format(e))
+        
+class my_dictionary(dict): 
+  
+    # __init__ function 
+    def __init__(self): 
+        self = dict() 
+          
+    # Function to add key:value 
+    def add(self, key, value): 
+        self[key] = value 
 
 
 # Initialize the app for use with this MySQL class
@@ -184,12 +194,11 @@ def womens_page():
     curbw.execute(curbwquery,('%' + bname + '%',)) 
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
-    bwimg_dict = defaultdict(list)
+    bwimg_dict = my_dictionary()
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-      bwimg_dict.append(row['ITEM_NUMBER'])
       imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
-      bwimg_dict.[row['ITEM_NUMBER']] = imgdat
+      bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
     for x, y in bwimg_dict.items():
       print(x, y)
  # Close Connection
