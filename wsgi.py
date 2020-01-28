@@ -30,6 +30,7 @@ COS_AUTH_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token"
 COS_RESOURCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/693fe8ead49b44b192004113d21b15c2:fce26086-5b77-42cc-b1aa-d388aa2853d7::" # eg "crn:v1:bluemix:public:cloud-object-storage:global:a/3bf0d9003abfb5d29761c3e97696b71c:d6f04d83-6c4f-4a62-a165-696756d63903::"
 
 ibm_boto3.set_stream_logger('')
+image_api_url = "http://genzcart-ikea-d-o-d.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud"
 
 # Create resource
 cos = ibm_boto3.resource(service_name='s3',
