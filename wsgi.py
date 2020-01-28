@@ -43,7 +43,7 @@ cos = ibm_boto3.resource(service_name='s3',
 bucket_name = 'gamification-cos-standard-tkq'
 
 @application.route("/images/<item_no>", methods=['POST', 'GET'])
-def get_bucket_contents(bucket_name,item_no):
+def get_bucket_contents(item_no):
     print("Retrieving bucket contents from: {0}".format(bucket_name))
     try:
         print("in try",)
@@ -200,7 +200,7 @@ def womens_page():
     #bwimg_dict = dict(bwcollection) 
     for row in bwcollection:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-      imgdat=get_bucket_contents(bucket_name,row['ITEM_NUMBER'])
+      imgdat=get_bucket_contents(row['ITEM_NUMBER'])
       #imgdata = imgdat +'.jpg'
       bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
       #bwcollection[i].append('IMAGE_KEY' ,imgdat)
