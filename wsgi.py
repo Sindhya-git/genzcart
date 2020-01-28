@@ -41,7 +41,7 @@ cos = ibm_boto3.resource(service_name='s3',
 )
 bucket_name = 'gamification-cos-standard-tkq'
 
-@application.route("/images/<img-id>", methods=['POST', 'GET'])
+@application.route("/images/<item_no>", methods=['POST', 'GET'])
 def get_bucket_contents(bucket_name,item_no):
     print("Retrieving bucket contents from: {0}".format(bucket_name))
     try:
