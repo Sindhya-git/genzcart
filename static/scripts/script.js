@@ -49,7 +49,7 @@ function stopRecording(button) {
     recorder.exportWAV(function(blob) {
       console.log(blob);
       const url = '/api/speech-to-text';
-      const request = new XMLHttpRequest();
+      const request = new XMLHttpsRequest();
       request.open('POST', url, true);
       // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
