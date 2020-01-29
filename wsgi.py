@@ -8,6 +8,7 @@ from ibm_watson import SpeechToTextV1
 import ibm_boto3
 from ibm_botocore.client import Config, ClientError
 import os
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 #Initialize flask
 application = Flask(__name__)
