@@ -112,7 +112,7 @@ def getTextFromSpeech():
   speech_to_text = SpeechToTextV1(authenticator=authenticator)
 
 
-  response = sttService.recognize(
+  response = speech_to_text.recognize(
             audio=request.get_data(cache=False),
             content_type='audio/wav',
             timestamps=True,
