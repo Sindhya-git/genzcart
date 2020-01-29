@@ -14,13 +14,13 @@ recordMic.onclick = function() {
       recordMic.src = 'static/mic_active.png';
       startRecording();
       console.log('recorder started');
-      $('#q').val('I am listening ...');
+      $('#search-q').val('I am listening ...');
     } catch (ex) {
       console.log("Recognizer error .....");
     }
   } else {
     stopRecording();
-    $('#q').val('');
+    $('#search-q').val('');
   }
 };
 
