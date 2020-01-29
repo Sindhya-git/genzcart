@@ -55,8 +55,7 @@ function stopRecording(button) {
 
       // Decode asynchronously
       request.onload = function() {
-        callConversation(request.response);
-        displayMsgDiv(request.response, 'user');
+        console.log(request.response);
       };
       request.send(blob);
     });
