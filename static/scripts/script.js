@@ -48,8 +48,9 @@ function stopRecording(button) {
   recorder &&
     recorder.exportWAV(function(blob) {
       console.log(blob);
-      //const url = '/';
-      //const request = new XMLHttpsRequest();
+      recordMic.src = 'static/microphone.jpg';
+      const url = '/';
+      const request = new XMLHttpsRequest();
       request.open('POST', url, true);
       // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
