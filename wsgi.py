@@ -43,6 +43,7 @@ cos = ibm_boto3.resource(service_name='s3',
 bucket_name = 'gamification-cos-standard-tkq'
 
 @application.route("/images/<item_no>", methods=['POST', 'GET'])
+
 def get_bucket_contents(item_no):
     print("Retrieving bucket contents from: {0}".format(bucket_name))
     try:
@@ -80,29 +81,29 @@ mysql.init_app(application)
 
 
 class speech_to_text():
-def getTextFromSpeech():
-  print ("in speech to text",)
+    def getTextFromSpeech():
+        print ("in speech to text",)
 
     # initialize speech to text service
-  authenticator = IAMAuthenticator('cTnzuGCo56IOp7fsF63K9Hz1uDRXs6qoQ78y1Pe1QOE1')
-  speech_to_text = SpeechToTextV1(authenticator=authenticator)
+        authenticator = IAMAuthenticator('cTnzuGCo56IOp7fsF63K9Hz1uDRXs6qoQ78y1Pe1QOE1')
+        speech_to_text = SpeechToTextV1(authenticator=authenticator)
 
 
-  response = speech_to_text.recognize(
+        response = speech_to_text.recognize(
             audio=request.get_data(cache=False),
             content_type='audio/wav',
             timestamps=True,
             word_confidence=True,
             smart_formatting=True).get_result()
-  print("speech response :", response)
+        print("speech response :", response)
   # Ask user to repeat if STT can't transcribe the speech
-  if len(response['results']) < 1:
-    return Response(mimetype='plain/text',response="Sorry, didn't get that. please try again!")
+        if len(response['results']) < 1:
+            return Response(mimetype='plain/text',response="Sorry, didn't get that. please try again!")
 
-  text_output = response['results'][0]['alternatives'][0]['transcript']
-  text_output = text_output.strip()
-  print ("response of speech is :",text_output)
-  return Response(response=text_output, mimetype='plain/text')
+        text_output = response['results'][0]['alternatives'][0]['transcript']
+        text_output = text_output.strip()
+        print ("response of speech is :",text_output)
+        return Response(response=text_output, mimetype='plain/text')
 
 
 @application.route("/", methods=['POST', 'GET'])
