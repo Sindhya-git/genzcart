@@ -50,7 +50,7 @@ function stopRecording(button) {
       console.log(blob);
       recordMic.src = 'static/microphone.jpg';
       const url = '/';
-      const request = new XMLHttpsRequest();
+      const request = new XMLHttpRequest();
       request.open('POST', url, true);
       // request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
