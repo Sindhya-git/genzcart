@@ -1,6 +1,5 @@
 from flask import Flask, render_template, json, request, session, redirect
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField
 from flask import jsonify
 from flask_socketio import SocketIO
 from flask_cors import CORS
@@ -80,8 +79,39 @@ class my_dictionary(dict):
 mysql.init_app(application)
 
 
-@application.route("/")
+class speech_to_text():
+def getTextFromSpeech():
+  print ("in speech to text",)
+
+    # initialize speech to text service
+  authenticator = IAMAuthenticator('cTnzuGCo56IOp7fsF63K9Hz1uDRXs6qoQ78y1Pe1QOE1')
+  speech_to_text = SpeechToTextV1(authenticator=authenticator)
+
+
+  response = speech_to_text.recognize(
+            audio=request.get_data(cache=False),
+            content_type='audio/wav',
+            timestamps=True,
+            word_confidence=True,
+            smart_formatting=True).get_result()
+  print("speech response :", response)
+  # Ask user to repeat if STT can't transcribe the speech
+  if len(response['results']) < 1:
+    return Response(mimetype='plain/text',response="Sorry, didn't get that. please try again!")
+
+  text_output = response['results'][0]['alternatives'][0]['transcript']
+  text_output = text_output.strip()
+  print ("response of speech is :",text_output)
+  return Response(response=text_output, mimetype='plain/text')
+
+
+@application.route("/", methods=['POST', 'GET'])
 def home_page():
+  if request.method == "POST":
+    print ("in home post ",)
+    sttclass = speech_to_text()
+    sttclass.getTextFromSpeech()
+    
   if 'view' in request.args:
     item_number= request.args['view']
     print ("item number is :", item_number)
@@ -103,30 +133,6 @@ def home_page():
 def ghome_page():
   return render_template('home.html')
 
-@application.route('/api/speech-to-text', methods=['POST'])
-def getTextFromSpeech():
-  print ("in speech to text",)
-
-    # initialize speech to text service
-  authenticator = IAMAuthenticator('cTnzuGCo56IOp7fsF63K9Hz1uDRXs6qoQ78y1Pe1QOE1')
-  speech_to_text = SpeechToTextV1(authenticator=authenticator)
-
-
-  response = speech_to_text.recognize(
-            audio=request.get_data(cache=False),
-            content_type='audio/wav',
-            timestamps=True,
-            word_confidence=True,
-            smart_formatting=True).get_result()
-  
-  # Ask user to repeat if STT can't transcribe the speech
-  if len(response['results']) < 1:
-    return Response(mimetype='plain/text',response="Sorry, didn't get that. please try again!")
-
-  text_output = response['results'][0]['alternatives'][0]['transcript']
-  text_output = text_output.strip()
-  print ("response of speech is :",text_output)
-  return Response(response=text_output, mimetype='plain/text')
   
 @application.route("/women", methods=['POST', 'GET'])
 def womens_page():
