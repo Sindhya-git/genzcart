@@ -31,7 +31,7 @@
   top: 30%;
 }
    
-.prdt1-container > row > div> a >button {
+.prdt1-container > div> a >button {
   border: none;
   outline: 0;
   padding: 4px;
@@ -51,14 +51,15 @@
   top: 120%;
 }
 
-.similar-prdts > row {
+.similar-prdts {
   display: flex;
-}
+  flex-wrap: wrap;
+  }
 
-/* Create three equal columns that sits next to each other */
-.similar-prdts > column {
-  flex: 20%;
-  padding: 5px;
+/* Create four equal columns that sits next to each other */
+.similar-prdts > div {
+  width: 100px;
+  margin: 10px;
 }
 </style>
 </head>
@@ -99,7 +100,7 @@
   	<div class="row">
   		{% for simprdt in simimgs %}
   			<div class="column">
-    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt=""  style="width:90%;">
+    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt=""  style="width:40%;">
     		</div>
     	{% endfor %}
   
