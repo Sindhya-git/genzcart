@@ -144,7 +144,7 @@ def home_page():
         threshold='0.6',
         classifier_ids=["clothing-mod_631017751"]).get_result()
         print(json.dumps(classes, indent=2))
-        print(json.dumps( json.dumps( classes['images'][0]['classifiers'][0]['classes'][0]['class']))
+        print(json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class']))
         
 
     return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url)
