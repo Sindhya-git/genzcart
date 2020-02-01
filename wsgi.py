@@ -33,7 +33,7 @@ COS_API_KEY_ID = "_bAzHuCAN1yPz4Rcg5CZY1Tbp0UOpshuMhpoNkIvJAa3" # eg "W00YiRnLW4
 COS_AUTH_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token"
 COS_RESOURCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/693fe8ead49b44b192004113d21b15c2:fce26086-5b77-42cc-b1aa-d388aa2853d7::" # eg "crn:v1:bluemix:public:cloud-object-storage:global:a/3bf0d9003abfb5d29761c3e97696b71c:d6f04d83-6c4f-4a62-a165-696756d63903::"
 
-ibm_boto3.set_stream_logger('')
+#ibm_boto3.set_stream_logger('')
 image_api_url = "https://genzcart-ikea-d-o-d.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud"
 
 # Create resource
@@ -144,10 +144,20 @@ def home_page():
         threshold='0.6',
         classifier_ids=["clothing-mod_631017751"]).get_result()
         print(json.dumps(classes, indent=2))
-        print(json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class']))
+        imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+        qx = imgsrch_key.replace(' ','%')
+        qr = qx.replace("womens","women")
+        if 'men' in qx and 'wo' not in qx:
+          qy = qx.replace("men"," men")
+          qr = qy.replace("mens"," men")
+          print("qr is :" qr)
         
+        curim = mysql.connection.cursor()
+        curim.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.DESCRIPTION=%s LIMIT 1", (qr,))
+        similar_imgs = curim.fetchall()
+        print("similar images :",similar_imgs)
 
-    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url)
+    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs)
   else:
     print("inside home page",)  
     cur1 = mysql.connection.cursor()
