@@ -132,7 +132,7 @@ def home_page():
   #visual recognition
     for row in product1:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-    imgsrc= image_api_url + "/images/" + row['ITEM_NUMBER'] + ".jpg"
+    imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
     print("imgsrc :" ,imgsrc)
     with open(imgsrc) as images_file:
         classes = visual_recognition.classify(
