@@ -55,7 +55,8 @@
       <div class="row">
             {% for product1 in prdtdetail %}
                  <div class="column">
-                    <img class="card-img""  src="static/{{product1.ITEM_NUMBER}}.jpg" alt="" border="3" style="width:90%;">
+                    
+                    <img class="card-img""  src={{imgurl + "/images/" + product.ITEM_NUMBER  }} alt=""  style="width:90%;">
                  </div>
                  <div class="column" >          
                       <h2>Product Detail</h2>
