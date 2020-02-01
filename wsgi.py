@@ -154,7 +154,7 @@ def home_page():
         print("qr is :", qr)
         
         curim = mysql.connection.cursor()
-        curim.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.DESCRIPTION=%s LIMIT 10", (qr,))
+        curim.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10", (qr,))
         similar_imgs = curim.fetchall()
         print("similar images :",similar_imgs)
 
