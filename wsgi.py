@@ -145,6 +145,7 @@ def home_page():
         classifier_ids=["clothing-mod_631017751"]).get_result()
         print(json.dumps(classes, indent=2))
         imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+        print("imgsrch_key is :", imgsrch_key)
         qx = imgsrch_key.replace(' ','%')
         qr = qx.replace("womens","women")
         if 'men' in qx and 'wo' not in qx:
