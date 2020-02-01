@@ -128,6 +128,7 @@ def home_page():
     cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
     product1 = cur2.fetchall()
     print("product1 is :",product1)
+    cur2.close()
     
   #visual recognition
     vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
@@ -158,6 +159,7 @@ def home_page():
         curim.execute(queryi,('%' + qr + '%',))
         similar_imgs = curim.fetchall()
         print("similar images :",similar_imgs)
+        curim.close()
 
     return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs)
   else:
