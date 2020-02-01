@@ -8,6 +8,10 @@ import ibm_boto3
 from ibm_botocore.client import Config, ClientError
 import os
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import json
+from ibm_watson import VisualRecognitionV3
+
+
 
 #Initialize flask
 application = Flask(__name__)
@@ -112,6 +116,10 @@ def home_page():
     print ("in home post ",)
     sttclass = speech_to_text()
     sttclass.getTextFromSpeech()
+    vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+    visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
+    visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+
     
   if 'view' in request.args:
     item_number= request.args['view']
@@ -120,7 +128,17 @@ def home_page():
     cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
     product1 = cur2.fetchall()
     print("product1 is :",product1)
-    return render_template('product_detail.html', prdtdetail=product1)
+    
+  #visual recognition
+    imgsrc={{imgurl + "/images/" + product.ITEM_NUMBER  }}
+    with open(imgsrc, 'rb') as images_file:
+    classes = visual_recognition.classify(
+        images_file=images_file,
+        threshold='0.6',
+        classifier_ids=["clothing-mod_631017751"]).get_result()
+    print(json.dumps(classes, indent=2))
+
+    return render_template('product_detail.html', prdtdetail=product1,,imgurl=image_api_url)
   else:
     print("inside home page",)  
     cur1 = mysql.connection.cursor()
