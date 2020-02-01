@@ -132,11 +132,11 @@ def home_page():
   #visual recognition
     imgsrc={{imgurl + "/images/" + product.ITEM_NUMBER  }}
     with open(imgsrc, 'rb') as images_file:
-    classes = visual_recognition.classify(
+        classes = visual_recognition.classify(
         images_file=images_file,
         threshold='0.6',
         classifier_ids=["clothing-mod_631017751"]).get_result()
-    print(json.dumps(classes, indent=2))
+        print(json.dumps(classes, indent=2))
 
     return render_template('product_detail.html', prdtdetail=product1,,imgurl=image_api_url)
   else:
