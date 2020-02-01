@@ -138,7 +138,7 @@ def home_page():
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
     imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
     print("imgsrc :" ,imgsrc)
-    with open(imgsrc) as images_file:
+    with open(imgsrc, 'rb') as images_file:
         classes = visual_recognition.classify(
         images_file=images_file,
         threshold='0.6',
