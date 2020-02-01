@@ -144,7 +144,8 @@ def home_page():
         threshold='0.6',
         classifier_ids=["clothing-mod_631017751"]).get_result()
         print(json.dumps(classes, indent=2))
-        print(json.dumps(classes.class))
+        print(json.dumps( json.dumps( classes['images'][0]['classifiers'][0]['classes'][0]['class'))
+        
 
     return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url)
   else:
@@ -230,16 +231,16 @@ def womens_page():
     curbw.execute(curbwquery,('%' + bname + '%',)) 
     bwcollection = curbw.fetchall()
     print("bwcollection is :",bwcollection)
-    bwimg_dict = my_dictionary() 
-    #bwimg_dict = dict(bwcollection) 
-    for row in bwcollection:
-      print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-      imgdat=get_bucket_contents(row['ITEM_NUMBER'])
-      #imgdata = imgdat +'.jpg'
-      bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
+    #bwimg_dict = my_dictionary() 
+    
+    #for row in bwcollection:
+    #  print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
+    #  imgdat=get_bucket_contents(row['ITEM_NUMBER'])
+    #  #imgdata = imgdat +'.jpg'
+    #  bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
       #bwcollection[i].append('IMAGE_KEY' ,imgdat)
       
-    print("bwcollection1 is :",bwimg_dict)
+    #print("bwcollection1 is :",bwimg_dict)
     #print("bwcollection2 is :",tuple(bwimg_dict))
  # Close Connection
     curbw.close()
