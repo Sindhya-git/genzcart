@@ -130,6 +130,10 @@ def home_page():
     print("product1 is :",product1)
     
   #visual recognition
+    vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+    visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
+    visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+
     for row in product1:
       print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
     imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
