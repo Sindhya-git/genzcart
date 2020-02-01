@@ -31,7 +31,7 @@
   top: 30%;
 }
    
-.prdt1-container > div> a >button {
+.prdt1-container > a >button {
   border: none;
   outline: 0;
   padding: 4px;
@@ -48,7 +48,7 @@
   position: absolute;
   left: 10%;
   margin-left: -3px;
-  top: 120%;
+  top: 150%;
 }
 
 .similar-prdts {
@@ -73,7 +73,7 @@
             {% for product1 in prdtdetail %}
                  <div class="column">
                     
-                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:80%;">
+                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:70%;">
                  </div>
                  <div class="column" >          
                       <h2>Product Detail</h2>
@@ -100,7 +100,7 @@
   	<div class="row">
   		{% for simprdt in simimgs %}
   			<div class="column">
-    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt=""  style="width:40%;">
+    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="">
     		</div>
     	{% endfor %}
   
