@@ -138,7 +138,7 @@ def home_page():
         classifier_ids=["clothing-mod_631017751"]).get_result()
         print(json.dumps(classes, indent=2))
 
-    return render_template('product_detail.html', prdtdetail=product1,,imgurl=image_api_url)
+    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url)
   else:
     print("inside home page",)  
     cur1 = mysql.connection.cursor()
