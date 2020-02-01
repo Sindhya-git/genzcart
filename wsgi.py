@@ -46,7 +46,7 @@ cos = ibm_boto3.resource(service_name='s3',
 )
 bucket_name = 'gamification-cos-standard-tkq'
 
-@application.route("/images/<item_no>", methods=['POST', 'GET'])
+@application.route("/images/<item_no>.jpg", methods=['POST', 'GET'])
 
 def get_bucket_contents(item_no):
     print("Retrieving bucket contents from: {0}".format(bucket_name))
@@ -130,7 +130,7 @@ def home_page():
     print("product1 is :",product1)
     
   #visual recognition
-    imgsrc= image_api_url + "/images/" + product.ITEM_NUMBER 
+    imgsrc= image_api_url + "/images/" + product1['ITEM_NUMBER']
     with open(imgsrc, 'rb') as images_file:
         classes = visual_recognition.classify(
         images_file=images_file,
