@@ -31,7 +31,17 @@
   top: 30%;
 }
    
-
+.prdt1-container > row > column> a >button {
+  border: none;
+  outline: 0;
+  padding: 4px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 50%;
+  font-size: 10px;
+}
 .row {
   display: flex;
 }
@@ -68,7 +78,7 @@
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           
                       {% endif %}
                       <p >AVAILABLE : Yes</p>
-                      <a href="/addToCart?productId={{request.args.get(product1.ITEM_NUMBER)}}">Add to Cart</a>
+                      <a href="/addToCart?productId={{request.args.get(product1.ITEM_NUMBER)}}"><button type="submit">Add to Cart</button></a>
                                                                                                
                        
                  </div>  
