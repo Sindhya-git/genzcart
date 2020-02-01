@@ -42,16 +42,16 @@
   width: 50%;
   font-size: 10px;
 }
-.row {
-  display: flex;
+    
+.similar-prdts {
+  
+  position: absolute;
+  left: 10%;
+  margin-left: -3px;
+  top: 90%;
 }
 
-/* Create three equal columns that sits next to each other */
-.column {
-  flex: 25%;
-  padding: 5px;
-}
-  </style>
+</style>
 </head>
 
 <body >
@@ -78,15 +78,15 @@
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           
                       {% endif %}
                       <p >AVAILABLE : Yes</p>
-                      <a href="/addToCart?productId={{request.args.get(product1.ITEM_NUMBER)}}"><button type="submit">Add to Cart</button></a>
+                      <a href="/addToCart?productId={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
                                                                                                
                        
                  </div>  
              {% endfor %}
         </div>
  </div>
-                                                                                               
-  <div class="similar prdts">
+   <br> <br>                                                                                            
+  <div class="similar-prdts">
   	<div class="row">
   		{% for simprdt in simimgs %}
   			<div class="column">
