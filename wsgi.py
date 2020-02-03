@@ -73,7 +73,7 @@ def addToCart():
     itemnumlist.append(itemnumber)
     print(itemnumlist)
     noofitems = len(itemnumlist)
-    return redirect(url_for('/',noofitems=noofitems,itemnumlist=itemnumlist))
+    return redirect(url_for('PRODUCT DETAIL',noofitems=noofitems,itemnumlist=itemnumlist))
 
 @application.route("/orddet", methods=['POST', 'GET'])
 def showCart():
