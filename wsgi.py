@@ -73,7 +73,44 @@ def addToCart():
     itemnumlist.append(itemnumber)
     print(itemnumlist)
     noofitems = len(itemnumlist)
-    return redirect(url_for('PRODUCT DETAIL',noofitems=noofitems,itemnumlist=itemnumlist))
+    cur2 = mysql.connection.cursor()
+    cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (itemnumber,))
+    product1 = cur2.fetchall()
+    print("product1 is :",product1)
+    cur2.close()
+    
+  #visual recognition
+    vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+    visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
+    visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+
+    for row in product1:
+        print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
+        imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
+        print("imgsrc :" ,imgsrc)
+        with open(imgsrc, 'rb') as images_file:
+        classes = visual_recognition.classify(
+        images_file=images_file,
+        threshold='0.6',
+        classifier_ids=["clothing-mod_631017751"]).get_result()
+        print(json.dumps(classes, indent=2))
+    imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+    print("imgsrch_key is :", imgsrch_key)
+    qs = imgsrch_key.strip('"')
+    qx = qs.replace(' ','%')
+    qr = qx.replace("womens","women")
+    if 'men' in qx and 'wo' not in qx:
+        qy = qx.replace("men"," men")
+        qr = qy.replace("mens"," men")
+        print("qr is :", qr)
+        
+    curim = mysql.connection.cursor()
+    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
+    curim.execute(queryi,('%' + qr + '%',))
+    similar_imgs = curim.fetchall()
+    print("similar images :",similar_imgs)
+    curim.close()
+    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
 
 @application.route("/orddet", methods=['POST', 'GET'])
 def showCart():
@@ -93,50 +130,6 @@ class my_dictionary(dict):
     def add(self, key, value): 
         self[key] = value 
         
-class viewproduct(): 
-  
-    def vprdt(item_number): 
-        cur2 = mysql.connection.cursor()
-        cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
-        product1 = cur2.fetchall()
-        print("product1 is :",product1)
-        cur2.close()
-    
-  #visual recognition
-        vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
-        visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-        visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
-
-        for row in product1:
-            print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-            imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
-            print("imgsrc :" ,imgsrc)
-            with open(imgsrc, 'rb') as images_file:
-                classes = visual_recognition.classify(
-                images_file=images_file,
-                threshold='0.6',
-                classifier_ids=["clothing-mod_631017751"]).get_result()
-                print(json.dumps(classes, indent=2))
-                imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
-        print("imgsrch_key is :", imgsrch_key)
-        qs = imgsrch_key.strip('"')
-        qx = qs.replace(' ','%')
-        qr = qx.replace("womens","women")
-        if 'men' in qx and 'wo' not in qx:
-          qy = qx.replace("men"," men")
-          qr = qy.replace("mens"," men")
-        print("qr is :", qr)
-        
-        curim = mysql.connection.cursor()
-        queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
-        curim.execute(queryi,('%' + qr + '%',))
-        similar_imgs = curim.fetchall()
-        print("similar images :",similar_imgs)
-        curim.close()
-        return product1,similar_imgs
-        
-
-
 # Initialize the app for use with this MySQL class
 mysql.init_app(application)
 
@@ -181,8 +174,38 @@ def home_page():
   if 'view' in request.args:
     item_number= request.args['view']
     print ("item number is :", item_number)
-    xviewprdt = viewproduct()
-    xviewprdt.vprdt(item_number)
+    cur2 = mysql.connection.cursor()
+    cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
+    product1 = cur2.fetchall()
+    print("product1 is :",product1)
+    cur2.close()
+    
+    for row in product1:
+        print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
+        imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
+        print("imgsrc :" ,imgsrc)
+        with open(imgsrc, 'rb') as images_file:
+            classes = visual_recognition.classify(
+            images_file=images_file,
+            threshold='0.6',
+            classifier_ids=["clothing-mod_631017751"]).get_result()
+            print(json.dumps(classes, indent=2))
+    imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+    print("imgsrch_key is :", imgsrch_key)
+    qs = imgsrch_key.strip('"')
+    qx = qs.replace(' ','%')
+    qr = qx.replace("womens","women")
+    if 'men' in qx and 'wo' not in qx:
+        qy = qx.replace("men"," men")
+        qr = qy.replace("mens"," men")
+        print("qr is :", qr)
+        
+    curim = mysql.connection.cursor()
+    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
+    curim.execute(queryi,('%' + qr + '%',))
+    similar_imgs = curim.fetchall()
+    print("similar images :",similar_imgs)
+    curim.close()
     
     return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
   else:
