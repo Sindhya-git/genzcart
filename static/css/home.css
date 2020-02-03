@@ -13,7 +13,7 @@ $font: 'Poppins', sans-serif;
 
 .header-container  {
 	overflow: hidden;
-	background: linear-gradient(to right, #9932cc, #3E49A6 70%);
+	background: linear-gradient(to right, #3E49A6, #9932cc 70%);
 	height: 100px;
 	
 }
@@ -30,7 +30,7 @@ $font: 'Poppins', sans-serif;
 	
 	text-align: center;
 	text-transform: uppercase;
-	background: linear-gradient(to right, #30CFD0 0%, #3E49A6 100%);
+	background: linear-gradient(to right, #30CFD0 0%, #afecf7 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font: {
