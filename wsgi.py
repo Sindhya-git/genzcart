@@ -68,14 +68,12 @@ def get_bucket_contents(item_no):
         
 @application.route("/itemsinCart", methods=['POST', 'GET'])
 def addToCart():
-    itemnumber = request.args.get('itemnum')
+    itemnumber = request.args.get('view')
     print("itemnum", itemnumber)
     itemnumlist.append(itemnumber)
     print(itemnumlist)
     noofitems = len(itemnumlist)
-    yviewprdt = viewproduct()
-    yviewprdt.vprdt(itemnumber)
-    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
+    return redirect(url_for('/',noofitems=noofitems,itemnumlist=itemnumlist))
 
 @application.route("/orddet", methods=['POST', 'GET'])
 def showCart():
