@@ -9,7 +9,7 @@ body {
 
 $font: 'Poppins', sans-serif;
 
-::selection { background-color: #C3CFE2; }
+::selection { background-color: #0A128B; }
 
 .header-container  {
 	overflow: hidden;
@@ -47,7 +47,7 @@ $font: 'Poppins', sans-serif;
   float: right;
   padding: 5px 8px;
   margin-top: -30px;
-  margin-right: 160px;
+  margin-right: 50px;
   background: #0EF2EA;
   font-size: 24px;
   border-radius: 50%;
