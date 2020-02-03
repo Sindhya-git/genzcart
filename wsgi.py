@@ -69,7 +69,7 @@ def get_bucket_contents(item_no):
 @application.route("/itemsinCart", methods=['POST', 'GET'])
 def addToCart():
     itemnumber = request.args.get('itemnum')
-    print("itemnum", Itemnumber)
+    print("itemnum", itemnumber)
     itemnumlist.append(itemnumber)
     print(itemnumlist)
     noofitems = len(itemnumlist)
