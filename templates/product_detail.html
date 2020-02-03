@@ -61,7 +61,7 @@
   position: absolute;
   left: 10%;
   margin-left: -3px;
-  top: 150%;
+  top: 100%;
 }
 
 .similar-prdts {
@@ -71,7 +71,7 @@
 
 /* Create four equal columns that sits next to each other */
 .similar-prdts > div {
-  width: 100px;
+  width: 150px;
   margin: 10px;
 }
 </style>
@@ -101,7 +101,7 @@
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           
                       {% endif %}
                       <p >AVAILABLE : Yes</p>
-                      <a href="/itemsinCart?itemnum={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
+                      <a href="/itemsinCart?view={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
                                                                                                
                        
                  </div>  
