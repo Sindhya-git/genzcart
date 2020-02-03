@@ -94,7 +94,7 @@ def addToCart():
             threshold='0.6',
             classifier_ids=["clothing-mod_631017751"]).get_result()
             print(json.dumps(classes, indent=2))
-    imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+            imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
     print("imgsrch_key is :", imgsrch_key)
     qs = imgsrch_key.strip('"')
     qx = qs.replace(' ','%')
@@ -190,7 +190,7 @@ def home_page():
             threshold='0.6',
             classifier_ids=["clothing-mod_631017751"]).get_result()
             print(json.dumps(classes, indent=2))
-    imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+            imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
     print("imgsrch_key is :", imgsrch_key)
     qs = imgsrch_key.strip('"')
     qx = qs.replace(' ','%')
