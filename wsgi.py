@@ -74,7 +74,7 @@ def addToCart():
     print(itemnumlist)
     noofitems = len(itemnumlist)
     yviewprdt = viewproduct()
-    yviewprdt.vprdt(item_number)
+    yviewprdt.vprdt(Itemnumber)
     return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
 
 @application.route("/orddet", methods=['POST', 'GET'])
