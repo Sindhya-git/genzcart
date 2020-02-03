@@ -1,9 +1,104 @@
+* {box-sizing: border-box;}
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+$font: 'Poppins', sans-serif;
+
+::selection { background-color: #C3CFE2; }
+
+.header-container  {
+	overflow: hidden;
+	background: linear-gradient(to right, #9932cc, #8b008b 70%);
+	height: 100px;
+	
+}
+
+.header-container h1 {
+	
+	display: block;
+  	text-align: center;
+	justify-content: center;
+		
+}
+
+.header-container .text {
+	
+	text-align: center;
+	text-transform: uppercase;
+	background: linear-gradient(to right, #30CFD0 0%, #efdecd 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	font: {
+		size: 20vw;
+		family: $font;
+	};
+}
+
+.header-container .side-container {
+  float: right;
+}
+
+.cart-container {
+  float: right;
+  margin-top: -30px;
+  padding: 5px 8px;
+  margin-right: -140px;
+  background: #0EF2EA;
+  font-size: 24px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+ button {
+  float: right;
+  padding: 8px 11px;
+  margin-top: -30px;
+  margin-right: 80px;
+  background: #5B0CAD;
+  color: white;
+  font-size: 19px;
+  border: 1px solid #ccc; 
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.header-container .side-container button:hover {
+  background: #ccc;
+}
+
+.badge {
+    background-color: #6394F8;
+    border-radius: 10px;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 1;
+    padding: 3px 7px;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 600px) {
+  .header-container .side-container {
+    float: none;
+  }
+  .header-container a, .header-container i, .header-container .side-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .header-container .side-container button {
+    border: 1px solid #ccc;  
+  }
+}
 .topnav {
   overflow: hidden;
   background-color: #afecf7;
