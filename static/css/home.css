@@ -13,7 +13,7 @@ $font: 'Poppins', sans-serif;
 
 .header-container  {
 	overflow: hidden;
-	background: linear-gradient(to right, #3EA5A6, #3E49A6 70%);
+	background: #D260D5;
 	height: 100px;
 	
 }
