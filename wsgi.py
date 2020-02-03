@@ -26,6 +26,7 @@ application.config['MYSQL_PASSWORD'] = "welcome1"
 application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+numitems = []
 
 #Intialize fields for IBM COS access
 COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
@@ -68,6 +69,18 @@ def get_bucket_contents(item_no):
         print("CLIENT ERROR: {0}\n".format(be))
     except Exception as e:
         print("Unable to retrieve bucket contents: {0}".format(e))
+        
+        
+@application.route("/itemsinCart", methods=['POST', 'GET'])
+def addToCart():
+    Itemnumber = request.args.get('itemnum')
+    print("itemnum", itemnum)
+    numitems.append(Itemnumber)
+    print(numitems)
+    noofitems = len(numitems)
+    return noofitems
+    
+
         
 class my_dictionary(dict): 
   
@@ -170,6 +183,7 @@ def home_page():
     shirts = cur1.fetchall()
  # Close Connection
     cur1.close()
+    addToCart()
     return render_template('home.html', shirts=shirts)
   
 @application.route("/home")
