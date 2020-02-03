@@ -167,11 +167,7 @@ def home_page():
     print ("in home post ",)
     sttclass = speech_to_text()
     sttclass.getTextFromSpeech()
-    vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
-    visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-    visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
-
-    
+        
   if 'view' in request.args:
     item_number= request.args['view']
     print ("item number is :", item_number)
@@ -186,6 +182,10 @@ def home_page():
         print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
         imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
         print("imgsrc :" ,imgsrc)
+        vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+        visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
+        visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+
         with open(imgsrc, 'rb') as images_file:
             classes = visual_recognition.classify(
             images_file=images_file,
