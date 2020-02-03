@@ -55,7 +55,7 @@ $font: 'Poppins', sans-serif;
   cursor: pointer;
 }
 
- button {
+ .header-container .side-container button {
   float: right;
   padding: 8px 11px;
   margin-top: -50px;
