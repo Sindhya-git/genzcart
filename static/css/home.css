@@ -43,7 +43,7 @@ $font: 'Poppins', sans-serif;
   float: right;
 }
 
-.cart-container {
+.header-container .side-container .cart-container {
   float: right;
   margin-top: -50px;
   padding: 5px 8px;
