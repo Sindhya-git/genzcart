@@ -13,7 +13,7 @@ $font: 'Poppins', sans-serif;
 
 .header-container  {
 	overflow: hidden;
-	background: linear-gradient(to right, #3E49A6, #9932cc 70%);
+	background: linear-gradient(to right, #3EA5A6, #3E49A6 70%);
 	height: 100px;
 	
 }
@@ -46,6 +46,7 @@ $font: 'Poppins', sans-serif;
 .header-container .side-container .cart-container {
   float: right;
   padding: 5px 8px;
+  margin-top: -30px;
   background: #0EF2EA;
   font-size: 24px;
   border-radius: 50%;
@@ -57,7 +58,7 @@ $font: 'Poppins', sans-serif;
   float: right;
   padding: 8px 11px;
   margin-top: -30px;
-  margin-right: 120px;
+  margin-right: 130px;
   background: #5B0CAD;
   color: white;
   font-size: 19px;
