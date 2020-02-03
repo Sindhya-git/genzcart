@@ -26,7 +26,7 @@ application.config['MYSQL_PASSWORD'] = "welcome1"
 application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-numitems = []
+itemnumlist = []
 
 #Intialize fields for IBM COS access
 COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
@@ -75,10 +75,10 @@ def get_bucket_contents(item_no):
 def addToCart():
     Itemnumber = request.args.get('itemnum')
     print("itemnum", itemnum)
-    numitems.append(Itemnumber)
-    print(numitems)
-    noofitems = len(numitems)
-    return noofitems
+    itemnumlist.append(Itemnumber)
+    print(itemnumlist)
+    noofitems = len(itemnumlist)
+    return noofitems,itemnumlist
     
 
         
@@ -175,7 +175,7 @@ def home_page():
         print("similar images :",similar_imgs)
         curim.close()
 
-    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs)
+    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
   else:
     print("inside home page",)  
     cur1 = mysql.connection.cursor()
@@ -184,11 +184,11 @@ def home_page():
  # Close Connection
     cur1.close()
     addToCart()
-    return render_template('home.html', shirts=shirts)
+    return render_template('home.html', shirts=shirts,cartitems=noofitems,cartlist=itemnumlist)
   
 @application.route("/home")
 def ghome_page():
-  return render_template('home.html')
+  return render_template('home.html',cartitems=noofitems,cartlist=itemnumlist)
 
   
 @application.route("/women", methods=['POST', 'GET'])
@@ -244,7 +244,7 @@ def womens_page():
     print("wcollection is :",wcolsize)
  # Close Connection
     curwc.close()
-    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val)
+    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
   
   if 'view' in request.args:
     bname = request.args['view']
@@ -273,7 +273,7 @@ def womens_page():
     #print("bwcollection2 is :",tuple(bwimg_dict))
  # Close Connection
     curbw.close()
-    return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url)
+    return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
   else:
     curw = mysql.connection.cursor()
     query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
@@ -285,7 +285,7 @@ def womens_page():
     wcollection = curw.fetchall()
  # Close Connection
     curw.close()
-    return render_template('Womens.html', womcol=wcollection)
+    return render_template('Womens.html', womcol=wcollection,cartitems=noofitems,cartlist=itemnumlist)
                  
 @application.route("/men", methods=['POST', 'GET'])
 def mens_page():
@@ -349,7 +349,7 @@ def mens_page():
     print("mcollection is :",mcolsize)
  # Close Connection
     curc.close()
-    return render_template('Mens.html', mencol=mcolsize,cbox=chkbox_val)
+    return render_template('Mens.html', mencol=mcolsize,cbox=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
     
   
   if 'view' in request.args:
@@ -368,7 +368,7 @@ def mens_page():
     print("bmcollection is :",bmcollection)
  # Close Connection
     curbm.close()
-    return render_template('Bmens.html', bmencol=bmcollection)
+    return render_template('Bmens.html', bmencol=bmcollection,cartitems=noofitems,cartlist=itemnumlist)
   else:
     curm = mysql.connection.cursor()
     query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
@@ -381,7 +381,7 @@ def mens_page():
     print("mcollection is :",mcollection)
  # Close Connection
     curm.close()
-    return render_template('Mens.html', mencol=mcollection)
+    return render_template('Mens.html', mencol=mcollection,cartitems=noofitems,cartlist=itemnumlist)
 
 
     
@@ -395,7 +395,7 @@ def boys_page():
   print("bcollection is :",bcollection)
  # Close Connection
   curb.close()
-  return render_template('Boys.html', boyscol=bcollection)
+  return render_template('Boys.html', boyscol=bcollection,cartitems=noofitems,cartlist=itemnumlist)
 
 @application.route("/girls")
 def girls_page():
@@ -407,7 +407,7 @@ def girls_page():
   print("gcollection is :",gcollection)
  # Close Connection
   curg.close()
-  return render_template('Girls.html', girlscol=gcollection)
+  return render_template('Girls.html', girlscol=gcollection,cartitems=noofitems,cartlist=itemnumlist)
   
 
 @application.route('/search', methods=['POST', 'GET'])
@@ -511,16 +511,16 @@ def search():
               if cur3.rowcount == 0:
                 commosrch1 = " "
                 print("here 2",)
-                return render_template('search.html', product_srch1=commosrch1)
+                return render_template('search.html', product_srch1=commosrch1,cartitems=noofitems,cartlist=itemnumlist)
               else:
                 print("here 3",)
-                return render_template('search.html', product_srch1=commosrch1)
+                return render_template('search.html', product_srch1=commosrch1,cartitems=noofitems,cartlist=itemnumlist)
             else:
               print("here 4",)
-              return render_template('search.html', product_srch=productsrch)
+              return render_template('search.html', product_srch=productsrch,cartitems=noofitems,cartlist=itemnumlist)
           else:
             print("here 5",)
-            return render_template('search.html', product_srch=productsrch)
+            return render_template('search.html', product_srch=productsrch,cartitems=noofitems,cartlist=itemnumlist)
         else:
           cur4 = mysql.connection.cursor()
           print("in cur4",)
@@ -538,7 +538,7 @@ def search():
             
           cur4.execute(query1,('%' + qr + '%',))
           productsrch = cur4.fetchall()
-          print("productsrch2 is :",productsrch)
+          print("productsrch2 is :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
           
           if productsrch:
             print("prod 1 has values",)
@@ -546,27 +546,27 @@ def search():
             productsrch = " "
             cur4.execute(query2,('%' + qr + '%',))
             productsrch = cur4.fetchall()
-            print("prdtsrch 2 :",productsrch)
+            print("prdtsrch 2 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
             if productsrch:
               print("prod 2 has values",)
             else:
               productsrch = " "
               cur4.execute(query3,('%' + qr + '%',))
               productsrch = cur4.fetchall()
-              print("prdtsrch 3 :",productsrch)
+              print("prdtsrch 3 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
               if productsrch:
                 print("prod 3 has values",)
               else:
                 productsrch = " "
                 cur4.execute(query4,('%' + qr + '%',))
                 productsrch = cur4.fetchall()
-                print("prdtsrch 4 :",productsrch)
+                print("prdtsrch 4 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
           cur4.close()
           if cur4.rowcount == 0:
             productsrch = ' '
-            return render_template('search.html', product_srch=productsrch)  
+            return render_template('search.html', product_srch=productsrch,cartitems=noofitems,cartlist=itemnumlist)  
           else:
-            return render_template('search.html', product_srch=productsrch)  
+            return render_template('search.html', product_srch=productsrch,cartitems=noofitems,cartlist=itemnumlist)  
 
 port = os.environ.get("PORT") or os.environ.get("VCAP_APP_PORT") or 5000    
 if __name__ == "__main__":
