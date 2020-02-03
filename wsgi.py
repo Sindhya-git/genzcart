@@ -83,6 +83,7 @@ def addToCart():
     vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
     visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
     visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+    qr = ""
 
     for row in product1:
         print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
@@ -95,14 +96,14 @@ def addToCart():
             classifier_ids=["clothing-mod_631017751"]).get_result()
             print(json.dumps(classes, indent=2))
             imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
-    print("imgsrch_key is :", imgsrch_key)
-    qs = imgsrch_key.strip('"')
-    qx = qs.replace(' ','%')
-    qr = qx.replace("womens","women")
-    if 'men' in qx and 'wo' not in qx:
-        qy = qx.replace("men"," men")
-        qr = qy.replace("mens"," men")
-        print("qr is :", qr)
+            print("imgsrch_key is :", imgsrch_key)
+            qs = imgsrch_key.strip('"')
+            qx = qs.replace(' ','%')
+            qr = qx.replace("womens","women")
+            if 'men' in qx and 'wo' not in qx:
+                qy = qx.replace("men"," men")
+                qr = qy.replace("mens"," men")
+                print("qr is :", qr)
         
     curim = mysql.connection.cursor()
     queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
@@ -179,6 +180,7 @@ def home_page():
     product1 = cur2.fetchall()
     print("product1 is :",product1)
     cur2.close()
+    qr = ""
     
     for row in product1:
         print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
@@ -191,14 +193,14 @@ def home_page():
             classifier_ids=["clothing-mod_631017751"]).get_result()
             print(json.dumps(classes, indent=2))
             imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
-    print("imgsrch_key is :", imgsrch_key)
-    qs = imgsrch_key.strip('"')
-    qx = qs.replace(' ','%')
-    qr = qx.replace("womens","women")
-    if 'men' in qx and 'wo' not in qx:
-        qy = qx.replace("men"," men")
-        qr = qy.replace("mens"," men")
-        print("qr is :", qr)
+            print("imgsrch_key is :", imgsrch_key)
+            qs = imgsrch_key.strip('"')
+            qx = qs.replace(' ','%')
+            qr = qx.replace("womens","women")
+            if 'men' in qx and 'wo' not in qx:
+                qy = qx.replace("men"," men")
+                qr = qy.replace("mens"," men")
+                print("qr is :", qr)
         
     curim = mysql.connection.cursor()
     queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
