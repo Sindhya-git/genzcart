@@ -30,13 +30,13 @@ $font: 'Poppins', sans-serif;
 	
 	text-align: center;
 	text-transform: uppercase;
-	background: linear-gradient(to right, #30CFD0 0%, #afecf7 100%);
+	background: linear-gradient(to right, #30CFD0 0%, #DAF7A6 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font: {
 		size: 20vw;
 		family: $font;
-	};
+	}
 }
 
 .header-container .side-container {
@@ -45,7 +45,6 @@ $font: 'Poppins', sans-serif;
 
 .header-container .side-container .cart-container {
   float: right;
-  margin-top: -50px;
   padding: 5px 8px;
   background: #0EF2EA;
   font-size: 24px;
