@@ -43,6 +43,19 @@
   font-size: 10px;
 }
     
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+    
 .similar-prdts {
   
   position: absolute;
@@ -73,7 +86,7 @@
             {% for product1 in prdtdetail %}
                  <div class="column">
                     
-                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:70%;">
+                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:90%;">
                  </div>
                  <div class="column" >          
                       <h2>Product Detail</h2>
@@ -88,7 +101,7 @@
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           
                       {% endif %}
                       <p >AVAILABLE : Yes</p>
-                      <a href="/itemsinCart?itemnum={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
+                      <a href="?view={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
                                                                                                
                        
                  </div>  
@@ -96,7 +109,15 @@
         </div>
  </div>
    <br> <br>                                                                                            
+  <div class="similar-prdts">
+  	
+  		{% for simprdt in simimgs %}
+  			<div class="column1">
+    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="" style="width:70%;">
+    		</div>
+    	{% endfor %}
   
+  	</div>
   
    
 </body>
