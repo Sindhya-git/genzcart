@@ -30,7 +30,7 @@ $font: 'Poppins', sans-serif;
 	
 	text-align: center;
 	text-transform: uppercase;
-	background: linear-gradient(to right, #30CFD0 0%, #DAF7A6 100%);
+	background: linear-gradient(to right, #D0CE8A 0%, #E5DF16 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	font: {
@@ -47,7 +47,7 @@ $font: 'Poppins', sans-serif;
   float: right;
   padding: 5px 8px;
   margin-top: -30px;
-  margin-right: -100px;
+  margin-right: -150px;
   background: #0EF2EA;
   font-size: 24px;
   border-radius: 50%;
