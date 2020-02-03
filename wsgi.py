@@ -27,6 +27,7 @@ application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 itemnumlist = []
+noofitems = 0
 
 #Intialize fields for IBM COS access
 COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
