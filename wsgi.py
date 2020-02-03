@@ -79,6 +79,14 @@ def addToCart():
     print(itemnumlist)
     noofitems = len(itemnumlist)
     return noofitems,itemnumlist
+
+@application.route("/orddet", methods=['POST', 'GET'])
+def showCart():
+    
+    print("cartitems", cartitems)
+    print(itemnumlist)
+    return render_template('order_detail.html')
+    
     
 
         
