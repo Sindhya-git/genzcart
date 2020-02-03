@@ -89,11 +89,11 @@ def addToCart():
         imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
         print("imgsrc :" ,imgsrc)
         with open(imgsrc, 'rb') as images_file:
-        classes = visual_recognition.classify(
-        images_file=images_file,
-        threshold='0.6',
-        classifier_ids=["clothing-mod_631017751"]).get_result()
-        print(json.dumps(classes, indent=2))
+            classes = visual_recognition.classify(
+            images_file=images_file,
+            threshold='0.6',
+            classifier_ids=["clothing-mod_631017751"]).get_result()
+            print(json.dumps(classes, indent=2))
     imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
     print("imgsrch_key is :", imgsrch_key)
     qs = imgsrch_key.strip('"')
