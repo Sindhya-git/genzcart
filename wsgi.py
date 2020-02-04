@@ -30,10 +30,13 @@ itemnumlist = []
 
 
 #Intialize fields for IBM COS access
-COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
-COS_API_KEY_ID = "_bAzHuCAN1yPz4Rcg5CZY1Tbp0UOpshuMhpoNkIvJAa3" # eg "W00YiRnLW4a3fTjMB-odB-2ySfTrFBIQQWanc--P3byk"
-COS_AUTH_ENDPOINT = "https://iam.cloud.ibm.com/oidc/token"
-COS_RESOURCE_CRN = "crn:v1:bluemix:public:cloud-object-storage:global:a/693fe8ead49b44b192004113d21b15c2:fce26086-5b77-42cc-b1aa-d388aa2853d7::" # eg "crn:v1:bluemix:public:cloud-object-storage:global:a/3bf0d9003abfb5d29761c3e97696b71c:d6f04d83-6c4f-4a62-a165-696756d63903::"
+cos_env_cred = os.environ.get('IBM_CLOUD_STO_CREDENTIALS')
+print ("cos :", COS_CREDENTIALS)
+
+COS_ENDPOINT   = cos_env_cred['endpoint']
+COS_API_KEY_ID = cos_env_cred['apikey']
+COS_AUTH_ENDPOINT = cos_env_cred['auth_endpoint']
+COS_RESOURCE_CRN = cos_env_cred['resource_crn']
 
 #ibm_boto3.set_stream_logger('')
 image_api_url = "https://genzcart-ikea-d-o-d.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud"
