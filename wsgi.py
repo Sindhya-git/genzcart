@@ -144,7 +144,7 @@ def home_page():
     itemnumlist = request.args.getlist('cartlist') 
     print("noofitems", noofitems)
     print(itemnumlist)
-  
+    similar_imgs = ""
     if request.method == "POST":
         print ("in home post ",)
         sttclass = speech_to_text()
