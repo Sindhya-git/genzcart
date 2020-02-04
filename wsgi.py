@@ -153,7 +153,7 @@ def home_page():
         print("product1 is :",product1)
         cur2.close()
         qr = ""
-    
+        simimgs = ""
         for row in product1:
             print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
             imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
@@ -178,14 +178,14 @@ def home_page():
                     qr = qy.replace("mens"," men")
                     print("qr is :", qr)
         
-                    curim = mysql.connection.cursor()
-                    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
-                    curim.execute(queryi,('%' + qr + '%',))
-                    similar_imgs = curim.fetchall()
-                    print("similar images :",similar_imgs)
-                    curim.close()
+                curim = mysql.connection.cursor()
+                queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
+                curim.execute(queryi,('%' + qr + '%',))
+                similar_imgs = curim.fetchall()
+                print("similar images :",similar_imgs)
+                curim.close()
     
-                    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
+        return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
     else:
         print("inside home page",)  
         cur1 = mysql.connection.cursor()
@@ -209,7 +209,8 @@ def ghome_page():
 def womens_page():
     noofitems  = request.args.get('cartitems')
     itemnumlist = request.args.getlist('cartlist')      
-  
+    print("noofitems", noofitems)
+    print(itemnumlist)
     print ("in womens page",)
   
     chkbox_val = request.form.getlist('chkw')
@@ -250,18 +251,18 @@ def womens_page():
             print ("chklist is :", chklist)
       
     
-        curwc = mysql.connection.cursor()
-        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-        query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
-        curwcquery = query1 + query2 + query3 
-        print("curcquery is:",curwcquery) 
-        curwc.execute(curwcquery, (chklist,'%Women%'))
-        wcolsize = curwc.fetchall()
-        print("wcollection is :",wcolsize)
+    curwc = mysql.connection.cursor()
+    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
+    curwcquery = query1 + query2 + query3 
+    print("curcquery is:",curwcquery) 
+    curwc.execute(curwcquery, (chklist,'%Women%'))
+    wcolsize = curwc.fetchall()
+    print("wcollection is :",wcolsize)
  # Close Connection
-        curwc.close()
-        return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
+    curwc.close()
+    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
   
     if 'view' in request.args:
         bname = request.args['view']
