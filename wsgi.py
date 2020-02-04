@@ -183,7 +183,7 @@ def home_page():
                     print("similar images :",similar_imgs)
                     curim.close()
     
-        return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
+                    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
     else:
         print("inside home page",)  
         cur1 = mysql.connection.cursor()
