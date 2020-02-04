@@ -458,7 +458,7 @@ def search():
         print("type :",type(qs))
         print("qr is:",qr)
         commo_id = []
-        #for j in qs:
+        #
         #  print ("j is :," j)
         query_string = "SELECT * FROM XXIBM_PRODUCT_CATALOGUE WHERE COMMODITY_NAME LIKE %s ORDER BY COMMODITY ASC"
         cur3.execute(query_string, ('%' + qr + '%',))
@@ -481,44 +481,21 @@ def search():
           commo_dict = ','.join((str(n) for n in commo_id))
           print ("commo2 is:", commo_dict)
           query = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.CATALOGUE_CATEGORY IN (%s)" % commo_dict
-          
-            
+                     
           cur4.execute(query)
           productsrch = cur4.fetchall()
           print("productsrch1 is :",productsrch)
           cur4.close()
           cur5 = mysql.connection.cursor()
           query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2) LIKE (%s)"
-          query2 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1) LIKE (%s)"
-          query3 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
-          query4 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
+                   " or CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1) LIKE (%s) or CONCAT(s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) or CONCAT(s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)",
+                   ('%qr%', '%qr%','%qr%','%qr%')   
           
-            
-          cur5.execute(query1,('%' + qr + '%',))
+          cur5.execute(query1)
           productsrch5 = cur5.fetchall()
           print("prdtsrch5 :",productsrch5)
           if productsrch5:
             print("prod 51 has values",)
-          else:
-            productsrch5 = " "
-            cur5.execute(query2,('%' + qr + '%',))
-            productsrch5 = cur5.fetchall()
-            print("prdtsrch52 :",productsrch5)
-            if productsrch5:
-              print("prod 52 has values",)
-            else:
-              productsrch5 = " "
-              cur5.execute(query3,('%' + qr + '%',))
-              productsrch5 = cur5.fetchall()
-              print("prdtsrch53 :",productsrch5)
-              if productsrch5:
-                print("prod 53 has values",)
-              else:
-                productsrch5 = " "
-                cur5.execute(query4,('%' + qr + '%',))
-                productsrch5 = cur5.fetchall()
-                print("prdtsrch54 :",productsrch5)
-          
             
           productsrch = productsrch + productsrch5 
           print("prod srh is ",productsrch) 
@@ -546,42 +523,11 @@ def search():
           cur4 = mysql.connection.cursor()
           print("in cur4",)
           query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2) LIKE (%s)"
-          query2 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1) LIKE (%s)"
-          query3 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
-          query4 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
-          #if 'men' in qr and 'wo' not in qr:
-          #  print("men in qr:",)
-          #  query1 = query1 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query2 = query2 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query3 = query3 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query4 = query4 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          
-            
-          cur4.execute(query1,('%' + qr + '%',))
+                   " or CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1) LIKE (%s) or CONCAT(s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) or CONCAT(s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)",
+                   ('%qr%', '%qr%','%qr%','%qr%')     
+          cur4.execute(query1)
           productsrch = cur4.fetchall()
           print("productsrch2 is :",productsrch)
-          
-          if productsrch:
-            print("prod 1 has values",)
-          else:
-            productsrch = " "
-            cur4.execute(query2,('%' + qr + '%',))
-            productsrch = cur4.fetchall()
-            print("prdtsrch 2 :",productsrch)
-            if productsrch:
-              print("prod 2 has values",)
-            else:
-              productsrch = " "
-              cur4.execute(query3,('%' + qr + '%',))
-              productsrch = cur4.fetchall()
-              print("prdtsrch 3 :",productsrch)
-              if productsrch:
-                print("prod 3 has values",)
-              else:
-                productsrch = " "
-                cur4.execute(query4,('%' + qr + '%',))
-                productsrch = cur4.fetchall()
-                print("prdtsrch 4 :",productsrch)
           cur4.close()
           if cur4.rowcount == 0:
             productsrch = ' '
