@@ -37,7 +37,14 @@
   			<form action="" method="get">
       			<button type="button" >Login</button>
       			<div class="cart-container">
-      			<a href="/orddet?view={{cartlist}}"" id="cart"><i class="fa fa-shopping-cart"></i> <span class="badge">{{cartitems}}</span></a>
+      			<a href="/orddet?view={{cartlist}}" id="cart"><i class="fa fa-shopping-cart"></i> 
+			<span class="badge">
+			{% if simimgs == None %} 
+			 0
+			{% else  %}
+			{{cartitems}}
+			{% endif %}
+			</span></a>
       			</div>
     			</form>
     		</div>
