@@ -108,6 +108,7 @@
         </div>
  </div>
   
+  {% if simimgs %}  
   <h3> Similar products </h3>
   <div class="similar-prdts">
   	
@@ -118,6 +119,9 @@
     	{% endfor %}
   
   	</div>
+    {% else  %}
+      <h3> Added item to Cart </h3>
+    {% endif %}                                                                                           
   
    {% endblock %}     
 </body>
