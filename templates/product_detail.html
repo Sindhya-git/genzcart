@@ -108,10 +108,10 @@
         </div>
  </div>
   
-  {% if simimgs %}  
-  <h3> Similar products </h3>
+  
   <div class="similar-prdts">
-  	
+  	{% if simimgs %}  
+      <h3> Similar products </h3>
   		{% for simprdt in simimgs %}
   			<div class="column1">
     			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="" style="width:80%;">
@@ -119,8 +119,7 @@
     	{% endfor %}
   
   	</div>
-    {% else  %}
-      <h3> Added item to Cart </h3>
+    
     {% endif %}                                                                                           
   
    {% endblock %}     
