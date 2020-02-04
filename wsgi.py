@@ -30,8 +30,8 @@ itemnumlist = []
 
 
 #Intialize fields for IBM COS access
-cos_env_cred = os.environ.get('IBM_CLOUD_STO_CREDENTIALS')
-print ("cos :", COS_CREDENTIALS)
+cos_env_cred = os.environ.get('COS_CREDENTIALS')
+print ("cos :", cos_env_cred)
 
 COS_ENDPOINT   = cos_env_cred['endpoint']
 COS_API_KEY_ID = cos_env_cred['apikey']
