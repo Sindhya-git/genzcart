@@ -60,16 +60,44 @@
   		<div class="search-container">
 			<form  action="/search" method="get" >
    	       			<input type="text" class="searchTerm" id="search-q" name="q" placeholder="product search (type or speak)">
-				<img id="stt2" src="static/microphone.jpg"></input>
+				<img onclick="startDictation()" id="mic" src="static/microphone.jpg"></input>
 				<button id="searchsub" type="submit"><i class="fa fa-search"></i></button>
    			</form>
    		</div>
     </div>
-	<script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
-	<script type="text/javascript" src="./static/scripts/jquery-3.2.1.min.js"></script>
-	<script type="text/javascript" src="./static/scripts/recorder.js"></script>
-	<script type="text/javascript" src="./static/scripts/recordWorker.js"></script>
-     	<script type="text/javascript" src="./static/scripts/script.js"></script>
+
+											    
+											    <script>
+  function startDictation() {
+
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+	      console.log(e);
+        document.getElementById('search-q').value
+                                 = e.results[0][0].transcript;
+	      
+	      
+        recognition.stop();
+        document.getElementById('searchsub').submit();
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }
+</script>
+
 	
 
    
