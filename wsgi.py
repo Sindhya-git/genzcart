@@ -251,18 +251,18 @@ def womens_page():
             print ("chklist is :", chklist)
       
     
-    curwc = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
-    curwcquery = query1 + query2 + query3 
-    print("curcquery is:",curwcquery) 
-    curwc.execute(curwcquery, (chklist,'%Women%'))
-    wcolsize = curwc.fetchall()
-    print("wcollection is :",wcolsize)
+        curwc = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
+        curwcquery = query1 + query2 + query3 
+        print("curcquery is:",curwcquery) 
+        curwc.execute(curwcquery, (chklist,'%Women%'))
+        wcolsize = curwc.fetchall()
+        print("wcollection is :",wcolsize)
  # Close Connection
-    curwc.close()
-    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
+        curwc.close()
+        return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
   
     if 'view' in request.args:
         bname = request.args['view']
@@ -280,7 +280,7 @@ def womens_page():
             print("bwcollection is :",bwcollection)
     
             curbw.close()
-            return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
+        return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
     else:
         curw = mysql.connection.cursor()
         query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
