@@ -181,8 +181,8 @@ def home_page():
                 qx = qs.replace(' ','%')
                 qr = qx.replace("womens","women")
                 if 'men' in qx and 'wo' not in qx:
-                    qy = qx.replace("men"," men")
-                    qr = qy.replace("mens"," men")
+                    qy = qx.replace("men","men")
+                    qr = qy.replace("mens","men")
                     print("qr is :", qr)
         
                 curim = mysql.connection.cursor()
