@@ -86,7 +86,7 @@ def addToCart():
 def showCart():
     noofitems  = request.args.get('cartitems')
     itemnumlist = request.args.getlist('cartlist')
-    print("cartitems", cartitems)
+    print("cartitems", noofitems )
     print(itemnumlist)
     return render_template('order_detail.html')    
 
