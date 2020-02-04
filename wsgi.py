@@ -38,6 +38,8 @@ COS_API_KEY_ID = cos_env_cred['apikey']
 COS_AUTH_ENDPOINT = cos_env_cred['auth_endpoint']
 COS_RESOURCE_CRN = cos_env_cred['resource_crn']
 
+print ("COS_ENDPOINT :", COS_ENDPOINT)
+
 #ibm_boto3.set_stream_logger('')
 image_api_url = "https://genzcart-ikea-d-o-d.gamification-d3c0cb24e2b77f6869027abe3de4bca3-0001.sng01.containers.appdomain.cloud"
 
