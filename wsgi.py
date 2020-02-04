@@ -27,8 +27,7 @@ application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 itemnumlist = []
-noofitems = 0
-cartitems = 0
+
 
 #Intialize fields for IBM COS access
 COS_ENDPOINT = "https://s3.us-south.cloud-object-storage.appdomain.cloud" # Current list avaiable at https://control.cloud-object-storage.cloud.ibm.com/v2/endpoints
@@ -81,39 +80,7 @@ def addToCart():
     print("product1 is :",product1)
     cur2.close()
     
-  #visual recognition
-    vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
-    visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-    visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
-    qr = ""
-
-    for row in product1:
-        print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-        imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
-        print("imgsrc :" ,imgsrc)
-        with open(imgsrc, 'rb') as images_file:
-            classes = visual_recognition.classify(
-            images_file=images_file,
-            threshold='0.6',
-            classifier_ids=["clothing-mod_631017751"]).get_result()
-            print(json.dumps(classes, indent=2))
-            imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
-            print("imgsrch_key is :", imgsrch_key)
-            qs = imgsrch_key.strip('"')
-            qx = qs.replace(' ','%')
-            qr = qx.replace("womens","women")
-            if 'men' in qx and 'wo' not in qx:
-                qy = qx.replace("men"," men")
-                qr = qy.replace("mens"," men")
-                print("qr is :", qr)
-        
-    curim = mysql.connection.cursor()
-    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
-    curim.execute(queryi,('%' + qr + '%',))
-    similar_imgs = curim.fetchall()
-    print("similar images :",similar_imgs)
-    curim.close()
-    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
+    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
 
 @application.route("/orddet", methods=['POST', 'GET'])
 def showCart():
@@ -166,264 +133,267 @@ class speech_to_text():
 
 @application.route("/", methods=['POST', 'GET'])
 def home_page():
-  if request.method == "POST":
-    print ("in home post ",)
-    sttclass = speech_to_text()
-    sttclass.getTextFromSpeech()
-        
-  if 'view' in request.args:
-    item_number= request.args['view']
-    print ("item number is :", item_number)
-    cur2 = mysql.connection.cursor()
-    cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
-    product1 = cur2.fetchall()
-    print("product1 is :",product1)
-    cur2.close()
-    qr = ""
+    noofitems  = request.args.get('cartitems')
+    itemnumlist = request.args.getlist('cartlist')      
+  
+    if request.method == "POST":
+        print ("in home post ",)
+        sttclass = speech_to_text()
+        sttclass.getTextFromSpeech()
+          
     
-    for row in product1:
-        print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-        imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
-        print("imgsrc :" ,imgsrc)
-        vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
-        visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-        visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+    if 'view' in request.args:
+        item_number= request.args['view']
+        print ("item number is :", item_number)
+        cur2 = mysql.connection.cursor()
+        cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (item_number,))
+        product1 = cur2.fetchall()
+        print("product1 is :",product1)
+        cur2.close()
+        qr = ""
+    
+        for row in product1:
+            print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
+            imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
+            print("imgsrc :" ,imgsrc)
+            vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+            visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
+            visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
 
-        with open(imgsrc, 'rb') as images_file:
-            classes = visual_recognition.classify(
-            images_file=images_file,
-            threshold='0.6',
-            classifier_ids=["clothing-mod_631017751"]).get_result()
-            print(json.dumps(classes, indent=2))
-            imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
-            print("imgsrch_key is :", imgsrch_key)
-            qs = imgsrch_key.strip('"')
-            qx = qs.replace(' ','%')
-            qr = qx.replace("womens","women")
-            if 'men' in qx and 'wo' not in qx:
-                qy = qx.replace("men"," men")
-                qr = qy.replace("mens"," men")
-                print("qr is :", qr)
+            with open(imgsrc, 'rb') as images_file:
+                classes = visual_recognition.classify(
+                images_file=images_file,
+                threshold='0.6',
+                classifier_ids=["clothing-mod_631017751"]).get_result()
+                print(json.dumps(classes, indent=2))
+                imgsrch_key = json.dumps(classes['images'][0]['classifiers'][0]['classes'][0]['class'])
+                print("imgsrch_key is :", imgsrch_key)
+                qs = imgsrch_key.strip('"')
+                qx = qs.replace(' ','%')
+                qr = qx.replace("womens","women")
+                if 'men' in qx and 'wo' not in qx:
+                    qy = qx.replace("men"," men")
+                    qr = qy.replace("mens"," men")
+                    print("qr is :", qr)
         
-    curim = mysql.connection.cursor()
-    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
-    curim.execute(queryi,('%' + qr + '%',))
-    similar_imgs = curim.fetchall()
-    print("similar images :",similar_imgs)
-    curim.close()
+                    curim = mysql.connection.cursor()
+                    queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
+                    curim.execute(queryi,('%' + qr + '%',))
+                    similar_imgs = curim.fetchall()
+                    print("similar images :",similar_imgs)
+                    curim.close()
     
-    return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
-  else:
-    print("inside home page",)  
-    cur1 = mysql.connection.cursor()
-    cur1.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER LIMIT 25")
-    shirts = cur1.fetchall()
+        return render_template('product_detail.html', prdtdetail=product1,imgurl=image_api_url,simimgs=similar_imgs,cartitems=noofitems,cartlist=itemnumlist)
+    else:
+        print("inside home page",)  
+        cur1 = mysql.connection.cursor()
+        cur1.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER LIMIT 25")
+        shirts = cur1.fetchall()
  # Close Connection
-    cur1.close()
-    addToCart()
-    return render_template('home.html', shirts=shirts,cartitems=noofitems,cartlist=itemnumlist)
+        cur1.close()
+        return render_template('home.html', shirts=shirts,cartitems=noofitems,cartlist=itemnumlist)
   
 @application.route("/home")
 def ghome_page():
-  return render_template('home.html',cartitems=noofitems,cartlist=itemnumlist)
+    noofitems  = request.args.get('cartitems')
+    itemnumlist = request.args.getlist('cartlist')      
+  
+    return render_template('home.html',cartitems=noofitems,cartlist=itemnumlist)
 
   
 @application.route("/women", methods=['POST', 'GET'])
 def womens_page():
-  print ("in womens page",)
+    noofitems  = request.args.get('cartitems')
+    itemnumlist = request.args.getlist('cartlist')      
   
-  chkbox_val = request.form.getlist('chkw')
-  print ("chkbox_val1 is :", chkbox_val)
-  chklist = []
+    print ("in womens page",)
   
-  if request.method == "POST":
-    print ("in post ",)
     chkbox_val = request.form.getlist('chkw')
-    print ("chkbox_val is :", chkbox_val)
-    
-    if (chkbox_val.count('small') > 0 ):
-      chklist.append('small')
-      chklist.append('Small-Black')
-      chklist.append('Small-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('medium') > 0 ):
-      chklist.append('Medium')
-      chklist.append('Medium-Black')
-      chklist.append('Medium-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('large') > 0 ):
-      chklist.append('Large')
-      chklist.append('Large-Black')
-      chklist.append('Large-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('XL') > 0 ):
-      chklist.append('XL')
-      chklist.append('Xlarge')
-      chklist.append('XLarge-Black')
-      chklist.append('XLarge-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('XXLarge') > 0 ):
-      chklist.append('XXLarge')
-      chklist.append('XXLarge-Wine Red')
-      chklist.append('XXLarge-Black')
-      chklist.append('XXLarge-Dark Green')
-      print ("chklist is :", chklist)
-      
-    
-    curwc = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
-    curwcquery = query1 + query2 + query3 
-    print("curcquery is:",curwcquery) 
-    curwc.execute(curwcquery, (chklist,'%Women%'))
-    wcolsize = curwc.fetchall()
-    print("wcollection is :",wcolsize)
- # Close Connection
-    curwc.close()
-    return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
+    print ("chkbox_val1 is :", chkbox_val)
+    chklist = []
   
-  if 'view' in request.args:
-    bname = request.args['view']
-    print ("brand name is :", bname)
-    if bname == 'Reflex':
-      bname = 'Reflex Women'
-    curbw = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.DESCRIPTION LIKE %s"
-    curbwquery = query1 + query2 + query3 
-    print("curbwquery is:",curbwquery)
-    curbw.execute(curbwquery,('%' + bname + '%',)) 
-    bwcollection = curbw.fetchall()
-    print("bwcollection is :",bwcollection)
-    #bwimg_dict = my_dictionary() 
+    if request.method == "POST":
+        print ("in post ",)
+        chkbox_val = request.form.getlist('chkw')
+        print ("chkbox_val is :", chkbox_val)
     
-    #for row in bwcollection:
-    #  print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
-    #  imgdat=get_bucket_contents(row['ITEM_NUMBER'])
-    #  #imgdata = imgdat +'.jpg'
-    #  bwimg_dict.add(row['ITEM_NUMBER'] ,imgdat)
-      #bwcollection[i].append('IMAGE_KEY' ,imgdat)
+        if (chkbox_val.count('small') > 0 ):
+            chklist.append('small')
+            chklist.append('Small-Black')
+            chklist.append('Small-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('medium') > 0 ):
+            chklist.append('Medium')
+            chklist.append('Medium-Black')
+            chklist.append('Medium-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('large') > 0 ):
+            chklist.append('Large')
+            chklist.append('Large-Black')
+            chklist.append('Large-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('XL') > 0 ):
+            chklist.append('XL')
+            chklist.append('Xlarge')
+            chklist.append('XLarge-Black')
+            chklist.append('XLarge-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('XXLarge') > 0 ):
+            chklist.append('XXLarge')
+            chklist.append('XXLarge-Wine Red')
+            chklist.append('XXLarge-Black')
+            chklist.append('XXLarge-Dark Green')
+            print ("chklist is :", chklist)
       
-    #print("bwcollection1 is :",bwimg_dict)
-    #print("bwcollection2 is :",tuple(bwimg_dict))
+    
+        curwc = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION LIKE %s"
+        curwcquery = query1 + query2 + query3 
+        print("curcquery is:",curwcquery) 
+        curwc.execute(curwcquery, (chklist,'%Women%'))
+        wcolsize = curwc.fetchall()
+        print("wcollection is :",wcolsize)
  # Close Connection
-    curbw.close()
-    return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
-  else:
-    curw = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.DESCRIPTION LIKE '%Women%'"
-    curwquery = query1 + query2 + query3 
-    print("curwquery is:",curwquery)
-    curw.execute(curwquery) 
-    wcollection = curw.fetchall()
+        curwc.close()
+        return render_template('Womens.html', womcol=wcolsize,cbow=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
+  
+    if 'view' in request.args:
+        bname = request.args['view']
+        print ("brand name is :", bname)
+        if bname == 'Reflex':
+            bname = 'Reflex Women'
+            curbw = mysql.connection.cursor()
+            query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+            query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+            query3 = " AND s.DESCRIPTION LIKE %s"
+            curbwquery = query1 + query2 + query3 
+            print("curbwquery is:",curbwquery)
+            curbw.execute(curbwquery,('%' + bname + '%',)) 
+            bwcollection = curbw.fetchall()
+            print("bwcollection is :",bwcollection)
+    
+            curbw.close()
+            return render_template('Bwomens.html', bwomencol=bwcollection,imgurl=image_api_url,cartitems=noofitems,cartlist=itemnumlist)
+    else:
+        curw = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.DESCRIPTION LIKE '%Women%'"
+        curwquery = query1 + query2 + query3 
+        print("curwquery is:",curwquery)
+        curw.execute(curwquery) 
+        wcollection = curw.fetchall()
  # Close Connection
-    curw.close()
-    return render_template('Womens.html', womcol=wcollection,cartitems=noofitems,cartlist=itemnumlist)
+        curw.close()
+        return render_template('Womens.html', womcol=wcollection,cartitems=noofitems,cartlist=itemnumlist)
                  
 @application.route("/men", methods=['POST', 'GET'])
 def mens_page():
-  print ("in mens page",)
-  chkbox_val = request.form.getlist('check')
-  print ("chkbox_val1 is :", chkbox_val)
-  chklist = []
-  
-  if request.method == "POST":
-    print ("in post ",)
+    noofitems  = request.args.get('cartitems')
+    itemnumlist = request.args.getlist('cartlist')  
+    print ("in mens page",)
     chkbox_val = request.form.getlist('check')
-    print ("chkbox_val is :", chkbox_val)
-    if (chkbox_val.count('38') > 0 ):
-      chklist.append('38 Long')
-      chklist.append('38 Short')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('40') > 0 ):
-      chklist.append('40 Long')
-      chklist.append('40 Regular')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('50') > 0 ):
-      chklist.append('50 Long')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('small') > 0 ):
-      chklist.append('small')
-      chklist.append('Small-Black')
-      chklist.append('Small-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('medium') > 0 ):
-      chklist.append('Medium')
-      chklist.append('Medium-Black')
-      chklist.append('Medium-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('large') > 0 ):
-      chklist.append('Large')
-      chklist.append('Large-Black')
-      chklist.append('Large-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('XL') > 0 ):
-      chklist.append('XL')
-      chklist.append('Xlarge')
-      chklist.append('XLarge-Black')
-      chklist.append('XLarge-Dark Green')
-      print ("chklist is :", chklist)
-    if (chkbox_val.count('XXLarge') > 0 ):
-      chklist.append('XXLarge')
-      chklist.append('XXLarge-Wine Red')
-      chklist.append('XXLarge-Black')
-      chklist.append('XXLarge-Dark Green')
-      print ("chklist is :", chklist)
+    print ("chkbox_val1 is :", chkbox_val)
+    chklist = []
+  
+    if request.method == "POST":
+        print ("in post ",)
+        chkbox_val = request.form.getlist('check')
+        print ("chkbox_val is :", chkbox_val)
+        if (chkbox_val.count('38') > 0 ):
+            chklist.append('38 Long')
+            chklist.append('38 Short')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('40') > 0 ):
+            chklist.append('40 Long')
+            chklist.append('40 Regular')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('50') > 0 ):
+            chklist.append('50 Long')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('small') > 0 ):
+            chklist.append('small')
+            chklist.append('Small-Black')
+            chklist.append('Small-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('medium') > 0 ):
+            chklist.append('Medium')
+            chklist.append('Medium-Black')
+            chklist.append('Medium-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('large') > 0 ):
+            chklist.append('Large')
+            chklist.append('Large-Black')
+            chklist.append('Large-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('XL') > 0 ):
+            chklist.append('XL')
+            chklist.append('Xlarge')
+            chklist.append('XLarge-Black')
+            chklist.append('XLarge-Dark Green')
+            print ("chklist is :", chklist)
+        if (chkbox_val.count('XXLarge') > 0 ):
+            chklist.append('XXLarge')
+            chklist.append('XXLarge-Wine Red')
+            chklist.append('XXLarge-Black')
+            chklist.append('XXLarge-Dark Green')
+            print ("chklist is :", chklist)
       
     
-    curc = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION NOT LIKE %s"
-    curcquery = query1 + query2 + query3 
-    print("curcquery is:",curcquery) 
-    curc.execute(curcquery, (chklist,'%Women%'))
-    mcolsize = curc.fetchall()
-    print("mcollection is :",mcolsize)
+        curc = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.SKU_ATTRIBUTE_VALUE1 IN %s AND s.DESCRIPTION NOT LIKE %s"
+        curcquery = query1 + query2 + query3 
+        print("curcquery is:",curcquery) 
+        curc.execute(curcquery, (chklist,'%Women%'))
+        mcolsize = curc.fetchall()
+        print("mcollection is :",mcolsize)
  # Close Connection
-    curc.close()
-    return render_template('Mens.html', mencol=mcolsize,cbox=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
+        curc.close()
+        return render_template('Mens.html', mencol=mcolsize,cbox=chkbox_val,cartitems=noofitems,cartlist=itemnumlist)
     
   
-  if 'view' in request.args:
-    bname = request.args['view']
-    print ("brand name is :", bname)
-    if bname == 'Reflex':
-      bname = 'Reflex Men'
-    curbm = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.DESCRIPTION LIKE %s"
-    curbmquery = query1 + query2 + query3 
-    print("curbmquery is:",curbmquery)
-    curbm.execute(curbmquery,('%' + bname + '%',)) 
-    bmcollection = curbm.fetchall()
-    print("bmcollection is :",bmcollection)
+    if 'view' in request.args:
+        bname = request.args['view']
+        print ("brand name is :", bname)
+        if bname == 'Reflex':
+            bname = 'Reflex Men'
+        curbm = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.DESCRIPTION LIKE %s"
+        curbmquery = query1 + query2 + query3 
+        print("curbmquery is:",curbmquery)
+        curbm.execute(curbmquery,('%' + bname + '%',)) 
+        bmcollection = curbm.fetchall()
+        print("bmcollection is :",bmcollection)
  # Close Connection
-    curbm.close()
-    return render_template('Bmens.html', bmencol=bmcollection,cartitems=noofitems,cartlist=itemnumlist)
-  else:
-    curm = mysql.connection.cursor()
-    query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
-    query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
-    query3 = " AND s.DESCRIPTION not LIKE '%Women%'"
-    curmquery = query1 + query2 + query3 
-    print("curmquery is:",curmquery)
-    curm.execute(curmquery) 
-    mcollection = curm.fetchall()
-    print("mcollection is :",mcollection)
+        curbm.close()
+        return render_template('Bmens.html', bmencol=bmcollection,cartitems=noofitems,cartlist=itemnumlist)
+    else:
+        curm = mysql.connection.cursor()
+        query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
+        query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
+        query3 = " AND s.DESCRIPTION not LIKE '%Women%'"
+        curmquery = query1 + query2 + query3 
+        print("curmquery is:",curmquery)
+        curm.execute(curmquery) 
+        mcollection = curm.fetchall()
+        print("mcollection is :",mcollection)
  # Close Connection
-    curm.close()
-    return render_template('Mens.html', mencol=mcollection,cartitems=noofitems,cartlist=itemnumlist)
+        curm.close()
+        return render_template('Mens.html', mencol=mcollection,cartitems=noofitems,cartlist=itemnumlist)
 
 
     
 @application.route("/boys")
 def boys_page():
+  noofitems  = request.args.get('cartitems')
+  itemnumlist = request.args.getlist('cartlist')
+
   print ("in boys page",)
   curb = mysql.connection.cursor()
   curbquery = "SELECT FAMILY_NAME,CLASS_NAME,COMMODITY,COMMODITY_NAME FROM XXIBM_PRODUCT_CATALOGUE WHERE COMMODITY_NAME LIKE '%Boys%' "
@@ -436,6 +406,9 @@ def boys_page():
 
 @application.route("/girls")
 def girls_page():
+  noofitems  = request.args.get('cartitems')
+  itemnumlist = request.args.getlist('cartlist')
+
   print ("in girls page",)
   curg = mysql.connection.cursor()
   curgquery = "SELECT FAMILY_NAME,CLASS_NAME,COMMODITY,COMMODITY_NAME FROM XXIBM_PRODUCT_CATALOGUE WHERE COMMODITY_NAME LIKE '%girl%' "
@@ -449,6 +422,9 @@ def girls_page():
 
 @application.route('/search', methods=['POST', 'GET'])
 def search():
+    noofitems  = request.args.get('cartitems')
+    itemnumlist = request.args.getlist('cartlist')
+
     if 'q' in request.args:
         q = request.args['q']
         print ("q is :",q)
