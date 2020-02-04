@@ -474,9 +474,7 @@ def search():
           commo_dict = ','.join((str(n) for n in commo_id))
           print ("commo2 is:", commo_dict)
           query = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.CATALOGUE_CATEGORY IN (%s)" % commo_dict
-          #if 'men' in qr and 'wo' not in qr:
-          #  print("women in qr:",)
-          #  query = query + " AND s.DESCRIPTION not LIKE '%Women%'"
+          
             
           cur4.execute(query)
           productsrch = cur4.fetchall()
@@ -487,12 +485,7 @@ def search():
           query2 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1) LIKE (%s)"
           query3 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE1,' ',s.SKU_ATTRIBUTE_VALUE2,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
           query4 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER AND CONCAT(s.SKU_ATTRIBUTE_VALUE2,' ',s.SKU_ATTRIBUTE_VALUE1,' ',s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s)"
-          #if 'men' in qr and 'wo' not in qr:
-          #  print("men in qr:",)
-          #  query1 = query1 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query2 = query2 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query3 = query3 + " AND s.DESCRIPTION not LIKE '%Women%'"
-          #  query4 = query4 + " AND s.DESCRIPTION not LIKE '%Women%'"
+          
             
           cur5.execute(query1,('%' + qr + '%',))
           productsrch5 = cur5.fetchall()
@@ -559,7 +552,7 @@ def search():
             
           cur4.execute(query1,('%' + qr + '%',))
           productsrch = cur4.fetchall()
-          print("productsrch2 is :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+          print("productsrch2 is :",productsrch)
           
           if productsrch:
             print("prod 1 has values",)
@@ -567,21 +560,21 @@ def search():
             productsrch = " "
             cur4.execute(query2,('%' + qr + '%',))
             productsrch = cur4.fetchall()
-            print("prdtsrch 2 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+            print("prdtsrch 2 :",productsrch)
             if productsrch:
               print("prod 2 has values",)
             else:
               productsrch = " "
               cur4.execute(query3,('%' + qr + '%',))
               productsrch = cur4.fetchall()
-              print("prdtsrch 3 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+              print("prdtsrch 3 :",productsrch)
               if productsrch:
                 print("prod 3 has values",)
               else:
                 productsrch = " "
                 cur4.execute(query4,('%' + qr + '%',))
                 productsrch = cur4.fetchall()
-                print("prdtsrch 4 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+                print("prdtsrch 4 :",productsrch)
           cur4.close()
           if cur4.rowcount == 0:
             productsrch = ' '
