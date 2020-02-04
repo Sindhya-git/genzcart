@@ -2,12 +2,10 @@
 <html>
 <head>
   <title>ORDER DETAIL</title>
-  <!--<link rel="stylesheet" href="{{ url_for('static',     filename='css/home.css') }}">
-  <!-- Optional theme -->
+  
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
  <link rel="stylesheet" href="assets/stylesheets/main.css">
  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:100,300,400">
@@ -95,15 +93,8 @@ h1, h2, h3, h4 {
 
 <body >
   
-  <header class="primary-header container group">
-  <div style="background-color: #000;">
-  <!-- img src='C:/genz/static/title.jpg' width="1280" height="120"> -->
-  <h1 class="logo">
-        KOOL GENZ
-      </h1>
-   </div>   
-  </header>
-  
+  {% extends "template.html" %}
+ {% block content %}  
   
   <br><br>
   <h3>Shopping Cart</h3>
@@ -132,8 +123,8 @@ h1, h2, h3, h4 {
   {% endif %}
  	</table>
  </div>
-        <script type="text/javascript" src="C:/genz/static/scripts/cart.js"></script>
+        <!--script type="text/javascript" src="C:/genz/static/scripts/cart.js"></script-->
 
-
+{% endblock %}   
  </body>
 </html>
