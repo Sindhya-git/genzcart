@@ -43,14 +43,14 @@
   font-size: 15px;
 }
     
-.column {
+.columnp {
   float: left;
   width: 33.33%;
   padding: 5px;
 }
 
 /* Clearfix (clear floats) */
-.row::after {
+.rowp::after {
   content: "";
   clear: both;
   display: table;
@@ -83,13 +83,13 @@
  {% block content %}
  <div class="prdt1-container">
         
-      <div class="row">
+      <div class="rowp">
             {% for product1 in prdtdetail %}
-                 <div class="column">
+                 <div class="columnp">
                     
                     <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:90%;">
                  </div>
-                 <div class="column" >          
+                 <div class="columnp" >          
                       <h2>Product Detail</h2>
                       <h3 class="card-title">{{ product1.DESCRIPTION}}</h3>
                       <p >{{ product1.LONG_DESCRIPTION}}</p>
