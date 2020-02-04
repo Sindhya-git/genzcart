@@ -134,7 +134,9 @@ class speech_to_text():
 @application.route("/", methods=['POST', 'GET'])
 def home_page():
     noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')      
+    itemnumlist = request.args.getlist('cartlist') 
+    print("noofitems", noofitems)
+    print(itemnumlist)
   
     if request.method == "POST":
         print ("in home post ",)
@@ -197,6 +199,8 @@ def home_page():
 def ghome_page():
     noofitems  = request.args.get('cartitems')
     itemnumlist = request.args.getlist('cartlist')      
+    print("noofitems", noofitems)
+    print(itemnumlist)
   
     return render_template('home.html',cartitems=noofitems,cartlist=itemnumlist)
 
@@ -292,7 +296,10 @@ def womens_page():
 @application.route("/men", methods=['POST', 'GET'])
 def mens_page():
     noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')  
+    itemnumlist = request.args.getlist('cartlist') 
+    print("noofitems", noofitems)
+    print(itemnumlist)
+  
     print ("in mens page",)
     chkbox_val = request.form.getlist('check')
     print ("chkbox_val1 is :", chkbox_val)
