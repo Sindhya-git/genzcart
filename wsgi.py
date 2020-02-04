@@ -32,7 +32,7 @@ itemnumlist = []
 #Intialize fields for IBM COS access
 cos_env_credj = os.environ.get('COS_CREDENTIALS')
 print ("cos :", cos_env_cred)
-cos_env_credj = json.loads(cos_env_credj)
+cos_env_cred = json.loads(cos_env_credj)
 
 
 COS_ENDPOINT   = cos_env_cred['endpoint']
