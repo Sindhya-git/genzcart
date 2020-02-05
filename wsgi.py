@@ -251,7 +251,7 @@ def womens_page():
             chklist.append('XXLarge-Wine Red')
             chklist.append('XXLarge-Black')
             chklist.append('XXLarge-Dark Green')
-            print ("chklist is :", chklist)
+        print ("chklist is :", chklist)
       
     
         curwc = mysql.connection.cursor()
