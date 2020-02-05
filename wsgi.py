@@ -72,7 +72,7 @@ def get_bucket_contents(item_no):
 
 class my_cart(): 
     # Function to add cartlist 
-    def add():
+    def add(self):
         print("in cart add")
         noofitems  = request.args.get('cartitems')
         itemnumlist = request.args.getlist('cartlist')
