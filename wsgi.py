@@ -76,13 +76,16 @@ class my_cart():
     def add(self):
         print("in cart add")
         qa = request.args.get('pid')
-        qb = qa.split('+')
-        print("qb :", qb , type(qb))
-        noofitems  = request.args.get('cartitems')
-        itemnumlist = request.args.getlist('cartlist')
-        print("noofitems", noofitems,itemnumlist )
-        noofitems = len(itemnumlist)
-        cartlist = itemnumlist
+        if len(qa) = 0:
+            print("0")
+        else:
+            qb = qa.split('+')
+            print("qb :", qb , type(qb))
+            noofitems  = request.args.get('cartitems')
+            itemnumlist = request.args.getlist('cartlist')
+            print("noofitems", noofitems,itemnumlist )
+            noofitems = len(itemnumlist)
+            cartlist = itemnumlist
         
 
         
