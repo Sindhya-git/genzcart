@@ -184,7 +184,8 @@ def home_page():
                 qr = qx.replace("womens","women")
                 if 'men' in qx and 'wo' not in qx:
                     qy = qx.replace("men"," men")
-                    qr = qy.replace("mens","men")
+                    qz = qy.replace("mens","men")
+                    qr = qz.replace("tsirt","shirt")
                 print("qr is :", qr)
         
                 curim = mysql.connection.cursor()
@@ -448,8 +449,8 @@ def search():
         qr = qx.replace("womens","women")
         if 'men' in qx and 'wo' not in qx:
           qy = qx.replace("men"," men")
-          qr = qy.replace("mens","men")
-        
+          qz = qy.replace("mens","men")
+          qr = qz.replace("tsirt","shirt")
         print("qs is:",qs)
         print("type :",type(qs))
         print("qr is:",qr)
