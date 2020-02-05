@@ -87,7 +87,7 @@
             {% for product1 in prdtdetail %}
                  <div class="columnp">
                     
-                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:90%;">
+                    <img class="card-img""  src={{imgurl + "/images/" + product1.ITEM_NUMBER  }}.jpg alt=""  style="width:80%;">
                  </div>
                  <div class="columnp" >          
                       <h2>Product Detail</h2>
@@ -102,7 +102,7 @@
                         <p >DISCOUNT:{{ product1.DISCOUNT}}%</p>                                                           
                       {% endif %}
                       <p >AVAILABLE : Yes</p>
-                      <a href="/itemsinCart?view={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
+                      <a href="/itemsinCart?pid={{product1.ITEM_NUMBER}}"><button>Add to Cart</button></a>
                                                                                                
                        
                  </div>  
@@ -114,7 +114,7 @@
   <div class="similar-prdts">
   	{% if simimgs %}  
       <h3> Similar products </h3>
-                 <br><br>   <br><br>
+                 <br><br><br><br><br>
   		{% for simprdt in simimgs %}
   			<div class="column1">
     			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="" style="width:80%;">
