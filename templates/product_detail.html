@@ -31,7 +31,7 @@
   top: 30%;
 }
    
-.prdt1-container > div > button {
+.prdt1-container .columnp button {
   border: none;
   outline: 0;
   padding: 4px;
@@ -59,9 +59,9 @@
 .similar-prdts {
   
   position: absolute;
-  left: 10%;
+  left: 30%;
   margin-left: -3px;
-  top: 100%;
+  top: 120%;
 }
 
 .similar-prdts {
@@ -114,10 +114,10 @@
   <div class="similar-prdts">
   	{% if simimgs %}  
       <h3> Similar products </h3>
-                 <br><br><br><br><br>
+       <p> </p><p> </p>
   		{% for simprdt in simimgs %}
-  			<div class="column1">
-    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="" style="width:80%;">
+  			<div class="columnsim">
+    			<img src={{imgurl + "/images/" + simprdt.ITEM_NUMBER  }}.jpg alt="" style="width:70%;">
     		</div>
     	{% endfor %}
   
