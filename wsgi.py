@@ -76,7 +76,7 @@ class my_cart():
         print("in cart add")
         noofitems  = request.args.get('cartitems')
         itemnumlist = request.args.getlist('cartlist')
-        print("noofitems", noofitems + " " +itemnumlist )
+        print("noofitems", noofitems,itemnumlist )
         itemnumlist.append(itemnumber)
         print(itemnumlist)
         noofitems = len(itemnumlist)
