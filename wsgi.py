@@ -76,7 +76,7 @@ class my_cart():
     def add(self):
         print("in cart add")
         qa = request.args.get('pid')
-        if len(qa) = 0:
+        if len(qa) == 0:
             print("0")
         else:
             qb = qa.split('+')
