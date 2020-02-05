@@ -69,17 +69,26 @@ def get_bucket_contents(item_no):
         print("CLIENT ERROR: {0}\n".format(be))
     except Exception as e:
         print("Unable to retrieve bucket contents: {0}".format(e))
+
+class my_cart(): 
+    # Function to add cartlist 
+    def add():
+        print("in cart add")
+        noofitems  = request.args.get('cartitems')
+        itemnumlist = request.args.getlist('cartlist')
+        print("noofitems", noofitems + " " +itemnumlist )
+        itemnumlist.append(itemnumber)
+        print(itemnumlist)
+        noofitems = len(itemnumlist)
+        cartlist = itemnumlist
         
+
         
 @application.route("/itemsinCart", methods=['POST', 'GET'])
 def addToCart():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')
+    ic_list = my_cart()
+    ic_list.add()
     itemnumber = request.args.get('pid')
-    print("itemnum", itemnumber)
-    itemnumlist.append(itemnumber)
-    print(itemnumlist)
-    noofitems = len(itemnumlist)
     cur2 = mysql.connection.cursor()
     cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (itemnumber,))
     product1 = cur2.fetchall()
@@ -90,23 +99,12 @@ def addToCart():
 
 @application.route("/orddet", methods=['POST', 'GET'])
 def showCart():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')
-    print("cartitems", noofitems )
-    print(itemnumlist)
-    return render_template('order_detail.html')    
+    ic_list = my_cart()
+    ic_list.add()
+    return render_template('order_detail.html',cartlist=cartlist,noofitems=noofitems)    
 
         
-class my_dictionary(dict): 
-  
-    # __init__ function 
-    def __init__(self): 
-        self = dict() 
-          
-    # Function to add key:value 
-    def add(self, key, value): 
-        self[key] = value 
-        
+         
 # Initialize the app for use with this MySQL class
 mysql.init_app(application)
 
@@ -139,10 +137,8 @@ class speech_to_text():
 
 @application.route("/", methods=['POST', 'GET'])
 def home_page():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist') 
-    print("noofitems", noofitems)
-    print(itemnumlist)
+    ic_list = my_cart()
+    ic_list.add()
     similar_imgs = ""
     if request.method == "POST":
         print ("in home post ",)
@@ -164,9 +160,12 @@ def home_page():
             print("s.ITEM_NUMBER :" ,row['ITEM_NUMBER'])
             imgsrc= "static/" + row['ITEM_NUMBER'] + ".jpg"
             print("imgsrc :" ,imgsrc)
-            vauthenticator = IAMAuthenticator('beYJ4taa0_kCY22HCuTMrWYRU58FoLeOChaggzH4JB0W')
+            vr_env_credj = os.environ.get('VR_CREDENTIALS')
+            print ("vr :", vr_env_credj)
+            vr_env_cred = json.loads(vr_env_credj)
+            vauthenticator = IAMAuthenticator(vr_env_credj['apikey'])
             visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-            visual_recognition.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com/instances/ab7f008f-1b22-4527-a396-be40bc7a46f1')
+            visual_recognition.set_service_url(vr_env_credj['serviceurl'])
 
             with open(imgsrc, 'rb') as images_file:
                 classes = visual_recognition.classify(
@@ -203,20 +202,16 @@ def home_page():
   
 @application.route("/home")
 def ghome_page():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')      
-    print("noofitems", noofitems)
-    print(itemnumlist)
+    ic_list = my_cart()
+    ic_list.add()
   
     return render_template('home.html',cartitems=noofitems,cartlist=itemnumlist)
 
   
 @application.route("/women", methods=['POST', 'GET'])
 def womens_page():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')      
-    print("noofitems", noofitems)
-    print(itemnumlist)
+    ic_list = my_cart()
+    ic_list.add()
     print ("in womens page",)
   
     chkbox_val = request.form.getlist('chkw')
@@ -302,10 +297,8 @@ def womens_page():
                  
 @application.route("/men", methods=['POST', 'GET'])
 def mens_page():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist') 
-    print("noofitems", noofitems)
-    print(itemnumlist)
+    ic_list = my_cart()
+    ic_list.add()
   
     print ("in mens page",)
     chkbox_val = request.form.getlist('check')
@@ -405,8 +398,8 @@ def mens_page():
     
 @application.route("/boys")
 def boys_page():
-  noofitems  = request.args.get('cartitems')
-  itemnumlist = request.args.getlist('cartlist')
+  ic_list = my_cart()
+  ic_list.add()
 
   print ("in boys page",)
   curb = mysql.connection.cursor()
@@ -420,8 +413,8 @@ def boys_page():
 
 @application.route("/girls")
 def girls_page():
-  noofitems  = request.args.get('cartitems')
-  itemnumlist = request.args.getlist('cartlist')
+  ic_list = my_cart()
+  ic_list.add()
 
   print ("in girls page",)
   curg = mysql.connection.cursor()
@@ -436,8 +429,8 @@ def girls_page():
 
 @application.route('/search', methods=['POST', 'GET'])
 def search():
-    noofitems  = request.args.get('cartitems')
-    itemnumlist = request.args.getlist('cartlist')
+    ic_list = my_cart()
+    ic_list.add()
 
     if 'q' in request.args:
         q = request.args['q']
