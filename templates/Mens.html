@@ -217,11 +217,11 @@
 			 <a href="/{{product.FAMILY_NAME}}?view={{product.ITEM_NUMBER}}">
 			 <img src='static/{{product.ITEM_NUMBER}}.jpg' width=150px>
                           <h5>{{product.DESCRIPTION}}</h5>
-                          <h5>${{product.LIST_PRICE}}</h5></a>
+                          <h5>${{product.LIST_PRICE}}</h5><h5>{{product.SKU_ATTRIBUTE_VALUE1}}</h5></a>
 			  {% if product.DISCOUNT == None %}
-			    	<h5 color: grey;>{{product.DISCOUNT}}</h5>
+			    	<h5 color: grey;>Disc:{{product.DISCOUNT}}</h5>
 			    {% else %}
-			 	<h5 color: grey;>{{product.DISCOUNT}}%</h5>
+			 	<h5 color: grey;>Disc:{{product.DISCOUNT}}%</h5>
 			    {% endif %}
 			    
 			  
