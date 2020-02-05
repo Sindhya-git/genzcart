@@ -89,9 +89,10 @@ def addToCart():
     ic_list.add()
     itemnumber = request.args.get('pid')
     itemnumlist.append(itemnumber)
-    print("noofitems", noofitems,itemnumlist )
+    
     noofitems = len(itemnumlist)
     cartlist = itemnumlist
+    print("noofitems", noofitems,itemnumlist )
     cur2 = mysql.connection.cursor()
     cur2.execute("SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER and s.ITEM_NUMBER=%s LIMIT 1", (itemnumber,))
     product1 = cur2.fetchall()
