@@ -27,6 +27,7 @@ application.config['MYSQL_DB']    = "sampledb"
 application.config['MYSQL_PORT']  = int('3306')
 application.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 itemnumlist = []
+noofitems   = 0
 
 
 #Intialize fields for IBM COS access
