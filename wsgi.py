@@ -552,7 +552,7 @@ def search():
           
           cur4.execute(query1,('%' + qr + '%',))
           productsrch = cur4.fetchall()
-          print("productsrch2 is :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+          print("productsrch2 is :",productsrch)
           
           if productsrch:
             print("prod 1 has values",)
@@ -560,21 +560,21 @@ def search():
             productsrch = " "
             cur4.execute(query2,('%' + qr + '%',))
             productsrch = cur4.fetchall()
-            print("prdtsrch 2 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+            print("prdtsrch 2 :",productsrch)
             if productsrch:
               print("prod 2 has values",)
             else:
               productsrch = " "
               cur4.execute(query3,('%' + qr + '%',))
               productsrch = cur4.fetchall()
-              print("prdtsrch 3 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+              print("prdtsrch 3 :",productsrch)
               if productsrch:
                 print("prod 3 has values",)
               else:
                 productsrch = " "
                 cur4.execute(query4,('%' + qr + '%',))
                 productsrch = cur4.fetchall()
-                print("prdtsrch 4 :",productsrch,cartitems=noofitems,cartlist=itemnumlist)
+                print("prdtsrch 4 :",productsrch)
           cur4.close()
           if cur4.rowcount == 0:
             productsrch = ' '
