@@ -74,20 +74,12 @@ def get_bucket_contents(item_no):
 class my_cart(): 
     # Function to add cartlist 
     def add(self):
-        print("in cart add")
-        qa = request.args.get('pid')
-        if len(qa) == 0:
-            print("0")
-        else:
-            qb = qa.split('+')
-            print("qb :", qb , type(qb))
-            noofitems  = request.args.get('cartitems')
-            itemnumlist = request.args.getlist('cartlist')
-            print("noofitems", noofitems,itemnumlist )
-            noofitems = len(itemnumlist)
-            cartlist = itemnumlist
+        noofitems  = request.args.get('cartitems')
+        itemnumlist = request.args.getlist('cartlist')
+        print("noofitems", noofitems,itemnumlist )
+        noofitems = len(itemnumlist)
+        cartlist = itemnumlist
         
-
         
 @application.route("/itemsinCart", methods=['POST', 'GET'])
 def addToCart():
