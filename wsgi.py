@@ -253,7 +253,10 @@ def womens_page():
             chklist.append('XXLarge-Dark Green')
         print ("chklist is :", chklist)
       
-    
+        if chklist == []:
+            chklist = ['small','Small-Black','Small-Dark Green','Medium','Medium-Black','Medium-Dark Green','Large','Large-Black','Large-Dark Green','XL','Xlarge','XLarge-Black']
+            chklist.append('XLarge-Dark Green','XXLarge','XXLarge-Wine Red','XXLarge-Black','XXLarge-Dark Green')
+            
         curwc = mysql.connection.cursor()
         query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
         query2 = " FROM XXIBM_PRODUCT_SKU s INNER JOIN XXIBM_PRODUCT_PRICING p WHERE s.ITEM_NUMBER=p.ITEM_NUMBER"
@@ -350,6 +353,10 @@ def mens_page():
             chklist.append('XXLarge-Dark Green')
             print ("chklist is :", chklist)
       
+        if chklist == []:
+            chklist = ['small','Small-Black','Small-Dark Green','Medium','Medium-Black','Medium-Dark Green','Large','Large-Black','Large-Dark Green','XL','Xlarge','XLarge-Black']
+            chklist.append('XLarge-Dark Green','XXLarge','XXLarge-Wine Red','XXLarge-Black','XXLarge-Dark Green','38 Long','38 Short','40 Long','40 Regular','50 Long')
+
     
         curc = mysql.connection.cursor()
         query1 = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION, s.SKU_ATTRIBUTE_VALUE1,s.SKU_ATTRIBUTE_VALUE2,p.LIST_PRICE,p.DISCOUNT"
