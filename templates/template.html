@@ -37,7 +37,7 @@
   			<form action="" method="get">
       			<button type="button" >Login</button>
       			<div class="cart-container">
-      			<a href="/orddet?view={{cartlist}}" id="cart"><i class="fa fa-shopping-cart"></i> 
+      			<a href="/orddet?pid={{cartlist}}" id="cart"><i class="fa fa-shopping-cart"></i> 
 			<span class="badge">
 			{% if cartitems == None %} 
 			 0
@@ -53,8 +53,8 @@
  
    	<div class="topnav">
   		<a class="active" href="/home") }}">Home</a>
-  		<a href="/men?view={{cartlist}}+{{cartitems}}">Men</a>
-  		<a href="/women?view={{cartlist}}+{{cartitems}}">Women</a>
+  		<a href="/men?pid={{cartlist}}+{{cartitems}}">Men</a>
+  		<a href="/women?pid={{cartlist}}+{{cartitems}}">Women</a>
   		<a href="/boys">Boys</a>
   		<a href="/girls">Girls</a>
   		<div class="search-container">
