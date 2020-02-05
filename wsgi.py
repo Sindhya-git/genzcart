@@ -166,9 +166,9 @@ def home_page():
             vr_env_credj = os.environ.get('VR_CREDENTIALS')
             print ("vr :", vr_env_credj)
             vr_env_cred = json.loads(vr_env_credj)
-            vauthenticator = IAMAuthenticator(vr_env_credj['apikey'])
+            vauthenticator = IAMAuthenticator(vr_env_cred['apikey'])
             visual_recognition = VisualRecognitionV3(version='2018-03-19',authenticator=vauthenticator)
-            visual_recognition.set_service_url(vr_env_credj['serviceurl'])
+            visual_recognition.set_service_url(vr_env_cred['serviceurl'])
 
             with open(imgsrc, 'rb') as images_file:
                 classes = visual_recognition.classify(
