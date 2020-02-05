@@ -77,7 +77,7 @@ class my_cart():
         print("in cart add")
         qa = request.args.get('pid')
         qb = qa.split('+')
-        print("qb :" qb,type(qb))
+        print("qb :", qb , type(qb))
         noofitems  = request.args.get('cartitems')
         itemnumlist = request.args.getlist('cartlist')
         print("noofitems", noofitems,itemnumlist )
