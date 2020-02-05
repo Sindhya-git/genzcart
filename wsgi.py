@@ -182,7 +182,7 @@ def home_page():
                 if 'men' in qx and 'wo' not in qx:
                     qy = qx.replace("men"," men")
                     qr = qy.replace("mens","men")
-                 print("qr is :", qr)
+                print("qr is :", qr)
         
                 curim = mysql.connection.cursor()
                 queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
