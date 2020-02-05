@@ -34,7 +34,6 @@ cos_env_credj = os.environ.get('COS_CREDENTIALS')
 print ("cos :", cos_env_credj)
 cos_env_cred = json.loads(cos_env_credj)
 
-
 COS_ENDPOINT   = cos_env_cred['endpoint']
 COS_API_KEY_ID = cos_env_cred['apikey']
 COS_AUTH_ENDPOINT = cos_env_cred['auth_endpoint']
@@ -76,7 +75,7 @@ def get_bucket_contents(item_no):
 def addToCart():
     noofitems  = request.args.get('cartitems')
     itemnumlist = request.args.getlist('cartlist')
-    itemnumber = request.args.get('view')
+    itemnumber = request.args.get('pid')
     print("itemnum", itemnumber)
     itemnumlist.append(itemnumber)
     print(itemnumlist)
@@ -181,9 +180,9 @@ def home_page():
                 qx = qs.replace(' ','%')
                 qr = qx.replace("womens","women")
                 if 'men' in qx and 'wo' not in qx:
-                    qy = qx.replace("men","men")
+                    qy = qx.replace("men"," men")
                     qr = qy.replace("mens","men")
-                    print("qr is :", qr)
+                 print("qr is :", qr)
         
                 curim = mysql.connection.cursor()
                 queryi = "SELECT s.ITEM_NUMBER, s.DESCRIPTION,s.LONG_DESCRIPTION FROM XXIBM_PRODUCT_SKU s WHERE CONCAT(s.DESCRIPTION,' ',s.LONG_DESCRIPTION) LIKE (%s) LIMIT 10"
