@@ -10,7 +10,7 @@ mysqlclient==1.4.2.post1
 WTForms==2.2.1
 websocket-client==0.48.0
 ibm-watson==4.0.1
-flask-cors==3.0.8
+flask-cors==3.0.9
 flask-socketio==4.2.1
 boto3
 botocore
